@@ -6,8 +6,9 @@ const usePreloadQuery = <T>(query: () => Promise<T>) => {
   const preload = () => {
     if (hasFetched.current) return;
     query()
-      .then(() => {
+      .then((res) => {
         hasFetched.current = true;
+        console.log("ok", res);
       })
       .catch((err) => {
         console.error("Errore nel fetching", err);
