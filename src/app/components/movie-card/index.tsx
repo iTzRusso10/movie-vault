@@ -24,6 +24,7 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
             width={500}
             height={1000}
             src={getFilmImage(movie.poster_path)}
+            onMouseEnter={preload}
             className="rounded-md w-full aspect-[2/3] object-cover"
             alt={`${movie.title}-poster`}
           />
