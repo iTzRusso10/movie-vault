@@ -4,7 +4,7 @@ export const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 640px)");
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
 
     // Funzione per aggiornare lo stato quando cambia la dimensione
     const handleResize = () => setIsMobile(mediaQuery.matches);

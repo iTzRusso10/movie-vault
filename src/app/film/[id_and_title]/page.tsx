@@ -15,10 +15,12 @@ export default async function SingleFilmPage({
     <div className="flex flex-col">
       <Hero movie={movie} />
       <div className="px-3">
-        <h2 className="md:hidden text-3xl font-extrabold text-white mb-4">
-          Overview
-        </h2>
-        <p className="text-md md:hidden text-white">{movie.overview}</p>
+        <div className="motion-preset-slide-left">
+          <h2 className="md:hidden text-3xl font-extrabold text-white mb-4">
+            Overview
+          </h2>
+          <p className="text-md md:hidden text-white">{movie.overview}</p>
+        </div>
       </div>
     </div>
   );

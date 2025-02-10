@@ -3,7 +3,7 @@ interface HeroGenresProps {
 }
 
 export const HeroGenres = ({ genres }: HeroGenresProps) => (
-  <p className="text-xs font-bold sm:hidden">
+  <p className="text-xs font-bold">
     {genres.map((genre) => genre.name).join(" • ")}
   </p>
 );

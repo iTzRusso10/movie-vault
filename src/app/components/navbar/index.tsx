@@ -5,7 +5,7 @@ import { FaSearch } from "react-icons/fa";
 export const Navbar = () => {
   return (
     <nav className="flex w-full h-fit fixed top-0 items-center z-20  mt-3 ">
-      <div className="flex items-center gap-5 py-2 px-3 !backdrop-blur bg-white/30  mx-auto rounded-lg motion-scale-in-[1.5] motion-opacity-in-[0%] motion-ease-spring-bouncier">
+      <div className="flex items-center gap-5 py-2 px-3 !backdrop-blur bg-white/30  mx-auto rounded-lg motion-preset-compress">
         <Image
           className="rounded-lg"
           width={32}
