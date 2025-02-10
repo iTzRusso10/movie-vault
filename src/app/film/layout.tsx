@@ -1,9 +1,5 @@
 import { ReactNode } from "react";
 
-export default function SingleFilmPageLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function FilmPageLayout({ children }: { children: ReactNode }) {
   return <div className="w-full h-full">{children}</div>;
 }

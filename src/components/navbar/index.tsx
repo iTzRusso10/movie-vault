@@ -1,10 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import logoApp from "../../../public/movie-app-logo.jpeg";
 import { FaSearch } from "react-icons/fa";
 
 export const Navbar = () => {
   return (
-    <nav className="flex w-screen h-fit fixed justify-center top-0 items-center z-20 mt-3">
+    <nav className="flex w-full h-fit fixed justify-center top-0 items-center z-50  mt-3">
       <div className="flex items-center gap-5 py-2 px-3 !backdrop-blur bg-white/30  mx-auto rounded-lg motion-preset-compress">
         <Image
           className="rounded-lg"

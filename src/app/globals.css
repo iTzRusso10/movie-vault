@@ -45,3 +45,13 @@ main {
   position: relative;
   min-height: 100vh;
 }
+
+#app {
+  height: initial;
+  flex-grow: 1;
+  flex-shrink: 0;
+  overflow: hidden;
+  overflow: clip;
+  display: flex;
+  flex-direction: column;
+}
