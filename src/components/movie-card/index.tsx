@@ -19,7 +19,7 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
 
   return (
     <div className="flex flex-col h-full">
-      <Link href={`/film/${movie.id}-${movie.title}`} prefetch>
+      <Link href={`/film/${movie.id}-${movie.title}`} prefetch scroll>
         <div className="relative w-full">
           <NextImage
             loading="lazy"

@@ -11,10 +11,10 @@ export function LoadingUI({ className }: Props) {
     <div
       className={cn(
         className,
-        "flex max-w-full items-center h-screen max-h-[90vh] gap-2 justify-center"
+        "flex items-center h-screen max-h-[90vh] gap-2 justify-center"
       )}
     >
-      <div className="motion-preset-pulse flex gap-2">
+      <div className="motion-preset-pulse-sm flex gap-2">
         <Image
           priority
           src={"/movie-app-logo.jpeg"}

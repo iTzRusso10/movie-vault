@@ -1,7 +1,7 @@
 "use client";
 
 import { useInfiniteMovieByGenreQuery } from "@/api/movie/use-movie-query";
-import { MovieCard } from "@/app/components/movie-card";
+import { MovieCard } from "@/components/movie-card";
 import { useIntersectionObserver } from "crustack/hooks";
 
 export default function MovieList({ genre_id }: { genre_id: number }) {

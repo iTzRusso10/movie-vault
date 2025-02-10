@@ -1,4 +1,4 @@
-import { Hero } from "@/app/components/hero";
+import { Hero } from "@/components/hero";
 import MovieList from "./_components/movie-list";
 import { Movies } from "@/types/movie";
 

@@ -1,6 +1,6 @@
 import { getMovieByGenre } from "@/api/movie/movie-per-genres";
 import { MoviesCarousel } from "./movie-carousel";
-import { MOVIE_GENRES } from "../const";
+import { MOVIE_GENRES } from "../app/const";
 import Link from "next/link";
 
 export const MoviePerGenresSection = async () => {

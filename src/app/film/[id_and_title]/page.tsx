@@ -1,5 +1,5 @@
 import { getMovieById } from "@/api/movie/find-movie-by-id";
-import { Hero } from "@/app/components/hero";
+import { Hero } from "@/components/hero";
 
 export default async function SingleFilmPage({
   params,
