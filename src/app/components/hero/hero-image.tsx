@@ -1,11 +1,14 @@
 import { getFilmImage } from "@/utils";
 import { HeroProps } from ".";
+import Image from "next/image";
 
 export const HeroImage = ({ movie }: HeroProps) => {
   return (
-    <div className="w-full h-full absolute motion-translate-x-in-[0%] motion-translate-y-in-[25%]">
-      <img
-        className="w-full h-full object-cover inset-0 bg-right bg-no-repeat"
+    <div className="w-full h-full absolute motion-preset-slide-up-md">
+      <Image
+        width={600}
+        height={400}
+        className="w-full h-full object-cover inset-0 bg-right bg-no-repeat "
         alt={`${movie.title}-backdrop`}
         src={getFilmImage(movie.backdrop_path)}
       />

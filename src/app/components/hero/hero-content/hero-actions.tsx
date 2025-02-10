@@ -28,7 +28,7 @@ export const HeroActions = ({
       {!!movieTrailer && (
         <button
           onClick={() => setIsOpen(true)}
-          className="motion-scale-loop-[1.25] motion-loop-twice motion-ease-in-out px-6 py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-300"
+          className="px-6 py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-300"
         >
           Trailer
         </button>

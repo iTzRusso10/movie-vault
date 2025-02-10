@@ -14,8 +14,8 @@ export const HeroContent = async ({ movie }: HeroProps) => {
   const relaseYear = new Date(movie.release_date).getFullYear();
 
   return (
-    <div className="flex h-full motion-translate-x-in-[-25%] motion-translate-y-in-[0%]">
-      <div className="relative w-full flex flex-col items-start justify-center h-full px-3 md:px-6 max-w-2xl text-white gap-4">
+    <div className="flex h-full">
+      <div className="relative w-full flex flex-col items-start justify-center h-full px-3 md:px-6 max-w-2xl text-white gap-4 motion-preset-slide-right-md">
         <HeroTitle title={movie.title} year={relaseYear} />
         <HeroGenres genres={movieDetails.genres} />
         <HeroOverview overview={movieDetails.overview} />

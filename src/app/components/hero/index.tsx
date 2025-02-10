@@ -10,6 +10,7 @@ export const Hero = ({ movie }: HeroProps) => {
   return (
     <section className="relative w-full h-[65vh] md:h-[80vh]">
       <HeroImage movie={movie} />
+
       <HeroContent movie={movie} />
     </section>
   );

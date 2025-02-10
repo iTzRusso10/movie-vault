@@ -7,7 +7,7 @@ import { Footer } from "./components/footer";
 import { QueryProvider } from "./components/query-provider";
 
 // eslint-disable-next-line new-cap
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "MovieVault",
