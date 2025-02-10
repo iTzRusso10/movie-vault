@@ -4,7 +4,6 @@ import { useIsMobile } from "@/hook/useIsMobile";
 import usePreloadQuery from "@/hook/usePreload";
 import { Movie, MovieDetails } from "@/types/movie";
 import { getFilmImage } from "@/utils";
-import { noop } from "crustack/utils";
 import { default as NextImage } from "next/image";
 import Link from "next/link";
 

@@ -5,6 +5,7 @@
       "name": "movie-vault",
       "dependencies": {
         "@headlessui/react": "^2.2.0",
+        "@next/eslint-plugin-next": "^15.1.6",
         "@t3-oss/env-nextjs": "^0.12.0",
         "@tanstack/react-query": "^5.66.0",
         "crustack": "^0.6.10",

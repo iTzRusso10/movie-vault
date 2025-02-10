@@ -6,7 +6,7 @@ type Props = {
   className?: string;
 };
 
-export function LoadingUI({ delayMs = 500, className }: Props) {
+export function LoadingUI({ className }: Props) {
   return (
     <div
       className={cn(

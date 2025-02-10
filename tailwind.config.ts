@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindcssMotion from "tailwindcss-motion"; // Importazione corretta
 
 const config: Config = {
   content: [
@@ -9,6 +10,6 @@ const config: Config = {
   theme: {
     extend: {},
   },
-  plugins: [require("tailwindcss-motion")],
+  plugins: [tailwindcssMotion],
 };
 export default config;

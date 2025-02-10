@@ -26,7 +26,7 @@ export default function MovieList({ genre_id }: { genre_id: number }) {
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 w-full">
-        {filteredData?.map((movie) => (
+        {filteredData.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
       </div>
