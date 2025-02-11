@@ -4,6 +4,7 @@ const nextConfig: import("next").NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    unoptimized: false,
     remotePatterns: [
       {
         protocol: "https",
