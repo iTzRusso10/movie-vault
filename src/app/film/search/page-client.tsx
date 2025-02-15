@@ -3,15 +3,14 @@
 import { getMovieBySearch } from "@/api/movie/search-movie";
 import { MovieCard } from "@/components/movie-card";
 import { Movies } from "@/types/movie";
-import { useUpdateEffect } from "crustack/hooks";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SearchPageClient() {
   const [movies, setMovies] = useState<Movies>();
   const searchParams = useSearchParams().get("query");
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     if (!searchParams) return;
 
     const searchMovies = async () => {

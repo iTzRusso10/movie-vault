@@ -11,7 +11,7 @@ export default function Search() {
   const router = useRouter();
   const [search, setSearch] = useState<string>("");
   const [openInput, setOpenInput] = useState<boolean>(false);
-  const { debounce, cancel } = useDebounceFn(1000);
+  const { debounce, cancel } = useDebounceFn(1500);
 
   useUpdateEffect(() => {
     if (!search.length) {
@@ -20,7 +20,9 @@ export default function Search() {
       return;
     }
     debounce(() => {
-      router.push(`/film/search?query=${encodeURIComponent(search)}`);
+      router.push(`/film/search?query=${encodeURIComponent(search)}`, {
+        scroll: true,
+      });
     });
   }, [search]);
 
