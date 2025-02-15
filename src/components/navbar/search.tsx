@@ -6,6 +6,7 @@ import { FaSearch } from "react-icons/fa";
 import { useDebounceFn, useUpdateEffect } from "crustack/hooks";
 import Image from "next/image";
 import logoApp from "../../../public/movie-app-logo.jpeg";
+import Link from "next/link";
 
 export default function Search() {
   const router = useRouter();
@@ -30,14 +31,17 @@ export default function Search() {
     <div className="flex w-full justify-center">
       {!openInput ? (
         <div className="flex items-center gap-5 py-2 px-3 !backdrop-blur bg-white/30 mx-auto rounded-lg motion-preset-compress">
-          <Image
-            className="rounded-lg"
-            width={32}
-            height={32}
-            alt="logo-app"
-            priority
-            src={logoApp}
-          />
+          <Link href="/" prefetch>
+            <Image
+              className="rounded-lg"
+              width={32}
+              height={32}
+              alt="logo-app"
+              priority
+              src={logoApp}
+            />
+          </Link>
+
           <p className="text-white text-sm">Film</p>
           <p className="text-white text-sm">Serie TV</p>
           <p className="text-white text-sm">Preferiti</p>
