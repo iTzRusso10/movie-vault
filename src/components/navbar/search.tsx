@@ -31,7 +31,7 @@ export default function Search() {
     <div className="flex w-full justify-center">
       {!openInput ? (
         <div className="flex items-center gap-5 py-2 px-3 !backdrop-blur bg-white/30 mx-auto rounded-lg motion-preset-compress">
-          <Link href="/" prefetch>
+          <Link href="/" prefetch scroll={false}>
             <Image
               className="rounded-lg"
               width={32}
