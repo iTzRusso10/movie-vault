@@ -36,7 +36,7 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
           />
         </div>
         <div className="flex flex-col justify-center items-center">
-          <p className="text-white">{releaseYear}</p>
+          <p className="text-white">{releaseYear.toString()}</p>
         </div>
       </Link>
     </div>

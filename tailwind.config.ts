@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import tailwindcssMotion from "tailwindcss-motion"; // Importazione corretta
+import tailwindcssMotion from "tailwindcss-motion";
 
 const config: Config = {
   content: [
