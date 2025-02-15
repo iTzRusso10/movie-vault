@@ -2,6 +2,7 @@
 
 import { getMovieBySearch } from "@/api/movie/search-movie";
 import { MovieCard } from "@/components/movie-card";
+import { useHideMobileKeyboard } from "@/hook/useHideMobileKeyboard";
 import { Movies } from "@/types/movie";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -9,6 +10,8 @@ import { useEffect, useState } from "react";
 export default function SearchPageClient() {
   const [movies, setMovies] = useState<Movies>();
   const searchParams = useSearchParams().get("query");
+
+  useHideMobileKeyboard();
 
   useEffect(() => {
     if (!searchParams) return;
