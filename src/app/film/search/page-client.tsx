@@ -8,10 +8,13 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function SearchPageClient() {
+  useHideMobileKeyboard();
   const [movies, setMovies] = useState<Movies>();
   const searchParams = useSearchParams().get("query");
 
-  useHideMobileKeyboard();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     if (!searchParams) return;
