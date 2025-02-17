@@ -5,11 +5,16 @@ import {
 } from "@tanstack/react-query";
 import SearchPageClient from "./page-client";
 
-export default function SearchFilmPage() {
+export default async function SearchFilmPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ query: string }>;
+}) {
   const queryClient = new QueryClient();
+  const query = (await searchParams).query;
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <SearchPageClient />
+      <SearchPageClient query={query} />
     </HydrationBoundary>
   );
 }

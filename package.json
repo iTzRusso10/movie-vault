@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint && tsc --noEmit"
+    "lint": "next lint && tsc --noEmit",
+    "preview": "next build && next start"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
@@ -15,7 +16,7 @@
     "@tanstack/react-query": "^5.66.0",
     "crustack": "^0.6.10",
     "embla-carousel-react": "^8.5.2",
-    "next": "15.1.6",
+    "next": "15.1.7",
     "next-nprogress-bar": "^2.4.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

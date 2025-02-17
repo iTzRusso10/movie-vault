@@ -5,7 +5,8 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import GenresClientPage from "./page-client";
+import { Hero } from "@/components/hero";
+import MovieList from "./_components/movie-list";
 
 export default async function MoviePerGenresPage({
   params,
@@ -30,7 +31,13 @@ export default async function MoviePerGenresPage({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <GenresClientPage data={data} genreId={genreId} genreLabel={genreLabel} />
+      <div className="flex flex-col">
+        <Hero movie={data.results[0]} />
+        <div className="flex flex-col gap-3 px-5 w-full">
+          <h1 className="text-3xl text-white font-extrabold">{genreLabel}</h1>
+          <MovieList genre_id={genreId} />
+        </div>
+      </div>
     </HydrationBoundary>
   );
 }

@@ -3,13 +3,10 @@
 import { getMovieBySearch } from "@/api/movie/search-movie";
 import { MovieCard } from "@/components/movie-card";
 import { useHideMobileKeyboard } from "@/hook/useHideMobileKeyboard";
-import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/skeleton";
 
-export default function SearchPageClient() {
-  const searchParams = useSearchParams();
-  const query = searchParams.get("query");
+export default function SearchPageClient({ query }: { query: string }) {
   useHideMobileKeyboard();
 
   const { data, isLoading } = useQuery({
