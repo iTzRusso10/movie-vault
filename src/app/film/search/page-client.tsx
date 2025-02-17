@@ -3,40 +3,33 @@
 import { getMovieBySearch } from "@/api/movie/search-movie";
 import { MovieCard } from "@/components/movie-card";
 import { useHideMobileKeyboard } from "@/hook/useHideMobileKeyboard";
-import { Movies } from "@/types/movie";
-import { useMountEffect } from "crustack/hooks";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Skeleton } from "@/components/skeleton";
 
 export default function SearchPageClient() {
-  useHideMobileKeyboard();
-  const [movies, setMovies] = useState<Movies>();
   const searchParams = useSearchParams();
   const query = searchParams.get("query");
+  useHideMobileKeyboard();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useMountEffect(() => {
-    if (!query) return;
-
-    const searchMovies = async () => {
-      try {
-        const movies = await getMovieBySearch(query);
-        setMovies(movies);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    searchMovies();
+  const { data, isLoading } = useQuery({
+    queryKey: ["movies", query],
+    queryFn: () => (query ? getMovieBySearch(query) : null),
+    enabled: !!query,
+    staleTime: 1000 * 60 * 5,
   });
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 w-full mt-20">
-      {movies?.results.length ? (
-        movies.results.map((movie, i) => <MovieCard key={i} movie={movie} />)
+    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 w-full mt-20 px-5">
+      {isLoading ? (
+        Array.from({ length: 20 }).map((_, i) => (
+          <Skeleton.Text
+            key={i}
+            className="bg-gray-900 aspect-[2/3] h-[300px]"
+          />
+        ))
+      ) : data?.results.length ? (
+        data.results.map((movie, i) => <MovieCard key={i} movie={movie} />)
       ) : (
         <div className="text-white">Nessun risultato.</div>
       )}
