@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { useDebounceFn, useUpdateEffect } from "crustack/hooks";
+import { useDebounceFn } from "crustack/hooks";
 import Image from "next/image";
 import logoApp from "../../../public/movie-app-logo.jpeg";
 import Link from "next/link";
@@ -14,7 +14,7 @@ export default function Search() {
   const [openInput, setOpenInput] = useState<boolean>(false);
   const { debounce, cancel } = useDebounceFn(1500);
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     if (!search.length) {
       cancel();
       router.push("/", { scroll: false });
@@ -25,7 +25,9 @@ export default function Search() {
         scroll: true,
       });
     });
-  }, [search]);
+
+    return () => cancel();
+  }, [search, cancel, debounce, router]);
 
   return (
     <div className="flex w-full justify-center">
