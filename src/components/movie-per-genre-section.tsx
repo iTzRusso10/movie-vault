@@ -39,7 +39,7 @@ export const SectionContainer = ({
 
 export const SectionTitle = ({ title, id }: { title: string; id: number }) => {
   return (
-    <Link href={`/film/genres/${id}-${title.toLowerCase()}`} prefetch>
+    <Link href={`/film/genres/${id}-${title.toLowerCase()}`} prefetch scroll>
       <h2 className="text-3xl font-extrabold text-white mb-4">{title}</h2>
     </Link>
   );
