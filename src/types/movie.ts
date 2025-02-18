@@ -96,6 +96,37 @@ export type MovieVideo = {
   id: string;
 };
 
+export type MovieImages = {
+  backdrops: {
+    aspect_ratio: number;
+    height: number;
+    iso_639_1: string | null;
+    file_path: string;
+    vote_average: number;
+    vote_count: number;
+    width: number;
+  }[];
+  id: number;
+  logos: {
+    aspect_ratio: number;
+    height: number;
+    iso_639_1: string | null;
+    file_path: string;
+    vote_average: number;
+    vote_count: number;
+    width: number;
+  }[];
+  posters: {
+    aspect_ratio: number;
+    height: number;
+    iso_639_1: string | null;
+    file_path: string;
+    vote_average: number;
+    vote_count: number;
+    width: number;
+  }[];
+};
+
 export type MovieGenres = {
   id: number;
   label: string;

@@ -10,13 +10,4 @@ export const upfetch = up(fetch, () => ({
     accept: "application/json",
     Authorization: `Bearer ${env.MOVIE_DB_API_KEY}`,
   },
-  // onRequest(options) {
-  //   console.log(options);
-  // },
-  // onSuccess(data, options) {
-  //   console.log("Fetch Success", data, options);
-  // },
-  // onError(error, options) {
-  //   console.log("Fetch Error", error, options);
-  // },
 }));
