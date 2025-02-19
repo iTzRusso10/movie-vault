@@ -28,7 +28,7 @@ export const HeroTitle = ({
           width={getLogo(images)?.width}
           height={getLogo(images)?.height}
           src={`${IMAGE_URL_ORIGINAL}` + getLogo(images)?.file_path}
-          className="w-auto h-auto max-w-[400px] max-h-[75px]"
+          className="w-auto h-auto md:max-w-[400px] md:max-h-[75px] max-w-[220px] max-h-[50px]"
         />
       )}
 
