@@ -15,8 +15,6 @@ export const HeroContent = async ({ movie }: HeroProps) => {
   const movieImages = await getMovieImages(movie.id);
   const relaseYear = new Date(movie.release_date).getFullYear();
 
-  console.log("index", movieImages);
-
   return (
     <div className="flex h-full">
       <div className="relative w-full flex flex-col items-start justify-center h-full px-3 md:px-6 max-w-2xl text-white gap-4 motion-preset-slide-right-md">
