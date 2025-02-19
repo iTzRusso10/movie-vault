@@ -8,6 +8,7 @@ export const HeroImage = ({ movie }: HeroProps) => {
       <Image
         width={600}
         height={400}
+        priority
         className="w-full h-full object-cover inset-0 bg-right bg-no-repeat "
         alt={`${movie.title}-backdrop`}
         src={getFilmImage(movie.backdrop_path)}

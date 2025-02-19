@@ -6,17 +6,26 @@ import { HeroGenres } from "./hero-genres";
 import { HeroOverview } from "./hero-overview";
 import { HeroActions } from "./hero-actions";
 import { HeroProductionInfo } from "./hero-production-info";
+import { getMovieImages } from "@/api/movie/movie-images";
 
 export const HeroContent = async ({ movie }: HeroProps) => {
   const movieDetails = await getMovieById(movie.id);
   const movieVideo = (await getMovieVideos(movie.id)).results;
   const movieTrailer = movieVideo.find((video) => video.type === "Trailer");
+  const movieImages = await getMovieImages(movie.id);
   const relaseYear = new Date(movie.release_date).getFullYear();
+
+  console.log("index", movieImages);
 
   return (
     <div className="flex h-full">
       <div className="relative w-full flex flex-col items-start justify-center h-full px-3 md:px-6 max-w-2xl text-white gap-4 motion-preset-slide-right-md">
-        <HeroTitle title={movie.title} year={relaseYear} />
+        <HeroTitle
+          images={movieImages}
+          duration={movieDetails.runtime}
+          title={movie.title}
+          year={relaseYear}
+        />
         <HeroGenres genres={movieDetails.genres} />
         <HeroOverview overview={movieDetails.overview} />
         <HeroActions

@@ -10,10 +10,10 @@ export const HeroProductionInfo = ({
 }: {
   companies: MovieCompanies;
 }) => (
-  <div>
-    <p className="text-sm font-bold">
+  <div className="">
+    <p className="font-bold text-xs">
       Production:{" "}
-      <span className="text-sm font-normal">
+      <span className="text-xs font-normal">
         {companies.map((company) => company.name).join(", ")}
       </span>
     </p>

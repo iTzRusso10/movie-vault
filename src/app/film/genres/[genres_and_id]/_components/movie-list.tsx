@@ -2,12 +2,14 @@
 
 import { useInfiniteMovieByGenreQuery } from "@/api/movie/use-movie-query";
 import { MovieCard } from "@/components/movie-card";
+import { Skeleton } from "@/components/skeleton";
 import { useIntersectionObserver } from "crustack/hooks";
 
 export default function MovieList({ genre_id }: { genre_id: number }) {
-  const { data, hasNextPage, fetchNextPage } = useInfiniteMovieByGenreQuery({
-    genreId: genre_id,
-  });
+  const { data, hasNextPage, fetchNextPage, isLoading } =
+    useInfiniteMovieByGenreQuery({
+      genreId: genre_id,
+    });
 
   const { ref } = useIntersectionObserver((entry) => {
     if (!entry.isIntersecting) return;
@@ -31,6 +33,13 @@ export default function MovieList({ genre_id }: { genre_id: number }) {
         {rest.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
+        {!!isLoading &&
+          Array.from({ length: 20 }).map((_, i) => (
+            <Skeleton.Text
+              key={i}
+              className="bg-gray-900 aspect-[2/3] h- full min-h-[400px]"
+            />
+          ))}
       </div>
       <div ref={ref} />
     </div>
