@@ -7,8 +7,9 @@ import { HeroOverview } from "./hero-overview";
 import { HeroActions } from "./hero-actions";
 import { HeroProductionInfo } from "./hero-production-info";
 import { getMovieImages } from "@/api/movie/movie-images";
+import { HeroWatchProviders } from "./hero-watch-providers";
 
-export const HeroContent = async ({ movie }: HeroProps) => {
+export const HeroContent = async ({ movie, watchProviders }: HeroProps) => {
   const movieDetails = await getMovieById(movie.id);
   const movieVideo = (await getMovieVideos(movie.id)).results;
   const movieTrailer = movieVideo.find((video) => video.type === "Trailer");
@@ -20,8 +21,7 @@ export const HeroContent = async ({ movie }: HeroProps) => {
       <div className="relative w-full flex flex-col items-start justify-center h-full px-3 md:px-6 max-w-2xl text-white gap-4 motion-preset-slide-right-md">
         <HeroTitle
           images={movieImages}
-          duration={movieDetails.runtime}
-          title={movie.title}
+          movieDetails={movieDetails}
           year={relaseYear}
         />
         <HeroGenres genres={movieDetails.genres} />
@@ -31,6 +31,7 @@ export const HeroContent = async ({ movie }: HeroProps) => {
           voteAverage={movieDetails.vote_average * 10}
         />
         <HeroProductionInfo companies={movieDetails.production_companies} />
+        <HeroWatchProviders watchProviders={watchProviders ?? {}} />
       </div>
     </div>
   );

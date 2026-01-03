@@ -1,7 +1,7 @@
 import { IMAGE_URL_ORIGINAL } from "./app/const";
 
 export function getFilmImage(src: string | null): string {
-  return src ? `${IMAGE_URL_ORIGINAL}${src}` : "";
+  return src ? `${IMAGE_URL_ORIGINAL}${src}` : "/placeholder.jpg";
 }
 
 export function cn(...classNames: Array<string | false | null | undefined>) {

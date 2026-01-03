@@ -1,4 +1,5 @@
 import { getMovieById } from "@/api/movie/find-movie-by-id";
+import { getWatchProviders } from "@/api/movie/watch-providers";
 import { Hero } from "@/components/hero";
 
 export default async function SingleFilmPage({
@@ -8,12 +9,12 @@ export default async function SingleFilmPage({
 }) {
   const id_and_title = (await params).id_and_title;
   const movieId = +id_and_title.split("-")[0];
-
   const movie = await getMovieById(movieId);
+  const watchProviders = await getWatchProviders(movieId);
 
   return (
     <div className="flex flex-col">
-      <Hero movie={movie} />
+      <Hero movie={movie} watchProviders={watchProviders.results} />
       <section className="p-3">
         <div className="motion-preset-slide-left-md">
           <h2 className="md:hidden text-3xl font-extrabold text-white mb-4">

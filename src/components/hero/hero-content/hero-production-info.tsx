@@ -9,13 +9,17 @@ export const HeroProductionInfo = ({
   companies,
 }: {
   companies: MovieCompanies;
-}) => (
-  <div className="">
-    <p className="font-bold text-xs">
-      Production:{" "}
-      <span className="text-xs font-normal">
-        {companies.map((company) => company.name).join(", ")}
-      </span>
-    </p>
-  </div>
-);
+}) => {
+  if (!companies.length) return;
+
+  return (
+    <div className="">
+      <p className="font-bold text-xs">
+        Production:{" "}
+        <span className="text-xs font-normal">
+          {companies.map((company) => company.name).join(", ")}
+        </span>
+      </p>
+    </div>
+  );
+};

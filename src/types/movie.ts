@@ -131,3 +131,36 @@ export type MovieGenres = {
   id: number;
   label: string;
 };
+
+export type MovieWatchProviders = {
+  id: number;
+  results: {
+    [key: string]: {
+      link: string;
+      flatrate:
+        | {
+            logo_path: string;
+            provider_id: number;
+            provider_name: string;
+            display_priority: number;
+          }[]
+        | null;
+      rent:
+        | {
+            logo_path: string;
+            provider_id: number;
+            provider_name: string;
+            display_priority: number;
+          }[]
+        | null;
+      buy:
+        | {
+            logo_path: string;
+            provider_id: number;
+            provider_name: string;
+            display_priority: number;
+          }[]
+        | null;
+    } | null;
+  };
+};

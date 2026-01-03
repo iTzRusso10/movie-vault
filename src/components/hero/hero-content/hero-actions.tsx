@@ -22,13 +22,13 @@ export const HeroActions = ({
       <div className="bg-purple-600 rounded-full p-3 md:hidden">
         <FaStar size={25} />
       </div>
-      <button className="hidden md:block px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors duration-300">
-        Aggiungi a Preferiti
+      <button className="hidden text-sm md:block px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors duration-300">
+        Add to wishlist
       </button>
       {!!movieTrailer && (
         <button
           onClick={() => setIsOpen(true)}
-          className="px-6 py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-300"
+          className="px-6 py-2 bg-white text-sm text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-300"
         >
           Trailer
         </button>

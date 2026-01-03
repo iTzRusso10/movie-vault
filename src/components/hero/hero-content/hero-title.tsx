@@ -1,25 +1,19 @@
 import { IMAGE_URL_ORIGINAL } from "@/app/const";
-import { MovieImages } from "@/types/movie";
+import { MovieDetails, MovieImages } from "@/types/movie";
 import Image from "next/image";
 
 interface HeroTitleProps {
-  title: string;
   year: number;
-  duration: number | null;
   images: MovieImages;
+  movieDetails: MovieDetails;
 }
 
-export const HeroTitle = ({
-  title,
-  year,
-  duration,
-  images,
-}: HeroTitleProps) => {
+export const HeroTitle = ({ year, images, movieDetails }: HeroTitleProps) => {
   return (
     <>
       {!getLogo(images) ? (
         <h1 className="truncate !leading-normal text-wrap w-full text-3xl line-clamp-2 md:text-5xl font-extrabold">
-          {title}
+          {movieDetails.title}
         </h1>
       ) : (
         <Image
@@ -31,9 +25,13 @@ export const HeroTitle = ({
           className="w-auto h-auto md:max-w-[400px] md:max-h-[75px] max-w-[220px] max-h-[50px]"
         />
       )}
+      {!!movieDetails.tagline && (
+        <p className="font-bold text-sm">{movieDetails.tagline}</p>
+      )}
 
       <p>
-        {year} {!!duration && <span>- {duration}m</span>}
+        {year}{" "}
+        {!!movieDetails.runtime && <span>- {movieDetails.runtime}m</span>}
       </p>
     </>
   );
