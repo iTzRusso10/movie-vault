@@ -5,7 +5,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import SearchPageClient from "./-page-client";
-import SearchFilmPagelayout from "./layout";
+import SearchFilmPagelayout from "./-layout";
 
 export const Route = createFileRoute("/film/search/")({
   component: SearchFilmPage,
