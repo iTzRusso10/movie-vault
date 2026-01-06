@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "preview": "vite preview",
-    "start": "node .output/server/index.mjs"
+    "preview": "vite build && vite",
+    "start": "vite"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.7",
