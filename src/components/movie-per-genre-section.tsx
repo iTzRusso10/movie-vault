@@ -53,7 +53,10 @@ export const SectionContainer = ({
 
 export const SectionTitle = ({ title, id }: { title: string; id: number }) => {
   return (
-    <Link to={`/film/genres/${id}-${title.toLowerCase()}`}>
+    <Link
+      to={`/film/genres/$genres_and_id`}
+      params={{ genres_and_id: `${id}-${title.toLowerCase()}` }}
+    >
       <h2 className="text-3xl font-extrabold text-white mb-4">{title}</h2>
     </Link>
   );

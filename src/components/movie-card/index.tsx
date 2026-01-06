@@ -9,7 +9,10 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
 
   return (
     <div className="flex flex-col h-full">
-      <Link to={`/film/${movie.id}-${movie.title}`}>
+      <Link
+        to={`/film/$id_and_title`}
+        params={{ id_and_title: `${movie.id}-${movie.title}` }}
+      >
         <div className="relative w-full">
           <img
             loading="lazy"
