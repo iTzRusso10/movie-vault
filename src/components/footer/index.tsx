@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export const Footer = () => {
   return (
     <footer className="bg-black border-t-[0.3px] border-t-gray-700 shadow px-3 py-20">
@@ -9,7 +7,7 @@ export const Footer = () => {
             href=""
             className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
           >
-            <Image
+            <img
               src={"/movie-app-logo.jpeg"}
               width={100}
               height={100}

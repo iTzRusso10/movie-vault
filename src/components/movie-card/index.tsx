@@ -1,8 +1,6 @@
-"use client";
 import { Movie } from "@/types/movie";
 import { getFilmImage } from "@/utils";
-import { default as NextImage } from "next/image";
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 
 export const MovieCard = ({ movie }: { movie: Movie }) => {
   const releaseYear = new Date(movie.release_date).getFullYear();
@@ -11,9 +9,9 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
 
   return (
     <div className="flex flex-col h-full">
-      <Link href={`/film/${movie.id}-${movie.title}`} prefetch scroll>
+      <Link to={`/film/${movie.id}-${movie.title}`}>
         <div className="relative w-full">
-          <NextImage
+          <img
             loading="lazy"
             width={500}
             height={1000}

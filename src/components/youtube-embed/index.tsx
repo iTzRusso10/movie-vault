@@ -1,5 +1,3 @@
-"use client";
-
 import { useLockBodyScroll, useMountEffect } from "crustack/hooks";
 import { Portal } from "../portal";
 import { useIsMobile } from "@/hook/useIsMobile";

@@ -1,6 +1,5 @@
-import { IMAGE_URL_ORIGINAL } from "@/app/const";
+import { IMAGE_URL_ORIGINAL } from "@/routes/-const";
 import { MovieDetails, MovieImages } from "@/types/movie";
-import Image from "next/image";
 
 interface HeroTitleProps {
   year: number;
@@ -16,8 +15,7 @@ export const HeroTitle = ({ year, images, movieDetails }: HeroTitleProps) => {
           {movieDetails.title}
         </h1>
       ) : (
-        <Image
-          priority
+        <img
           alt="film-logo"
           width={getLogo(images)?.width}
           height={getLogo(images)?.height}

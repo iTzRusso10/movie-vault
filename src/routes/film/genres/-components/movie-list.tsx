@@ -1,5 +1,3 @@
-"use client";
-
 import { useInfiniteMovieByGenreQuery } from "@/api/movie/use-movie-query";
 import { MovieCard } from "@/components/movie-card";
 import { Skeleton } from "@/components/skeleton";

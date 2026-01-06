@@ -1,5 +1,4 @@
 import { cn } from "crustack/utils";
-import Image from "next/image";
 
 type Props = {
   delayMs?: number;
@@ -15,8 +14,7 @@ export function LoadingUI({ className }: Props) {
       )}
     >
       <div className="motion-preset-pulse-sm flex gap-2">
-        <Image
-          priority
+        <img
           src={"/movie-app-logo.jpeg"}
           width={100}
           height={100}

@@ -1,4 +1,3 @@
-"use client";
 /* eslint-disable react/display-name */
 
 import styles from "./index.module.css";

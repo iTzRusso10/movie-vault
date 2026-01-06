@@ -1,5 +1,3 @@
-import React from "react";
-
 interface CircularProgressProps {
   percentage: number; // Valore da 0 a 100
   size?: number; // Dimensione del cerchio

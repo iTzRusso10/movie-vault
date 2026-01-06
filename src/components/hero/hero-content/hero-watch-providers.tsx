@@ -1,7 +1,6 @@
-import { IMAGE_URL_ORIGINAL } from "@/app/const";
+import { IMAGE_URL_ORIGINAL } from "@/routes/-const";
 import { MovieWatchProviders } from "@/types/movie";
-import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 
 export const HeroWatchProviders = ({
   watchProviders,
@@ -48,13 +47,13 @@ export const HeroWatchProviders = ({
         .map((provider) => (
           <Link
             key={provider?.provider_id}
-            href={validWatchProviders.link}
+            to={validWatchProviders.link}
             target="_blank"
             rel="noopener noreferrer"
             className="flex flex-wrap gap-2 items-center hover:opacity-80 transition-opacity"
             title="Vedi dove guardare su TMDB"
           >
-            <Image
+            <img
               src={`${IMAGE_URL_ORIGINAL}${provider?.logo_path}`}
               alt={provider?.provider_name ?? ""}
               width={30}

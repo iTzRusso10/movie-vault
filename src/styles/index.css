@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+@layer utilities {
+  /* COMPRESS */
+  @keyframes compress {
+    0% {
+      transform: scale(1);
+    }
+    30% {
+      transform: scale(0.88); /* compressione più marcata */
+    }
+    60% {
+      transform: scale(1.05); /* leggero overshoot */
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .animate-compress {
+    animation: compress 200ms ease-in-out both;
+  }
+  /* SLIDE RIGHT MD */
+  @keyframes slide-right-md {
+    from {
+      opacity: 0;
+      transform: translateX(-24px); /* parte da sinistra */
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slide-right-md {
+    animation: slide-right-md 300ms ease-out both;
+  }
+  /* SLIDE LEFT MD */
+  @keyframes slide-left-md {
+    from {
+      opacity: 0;
+      transform: translateX(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slide-left-md {
+    animation: slide-left-md 300ms ease-out both;
+  }
+
+  /* SLIDE UP MD */
+  @keyframes slide-up-md {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-up-md {
+    animation: slide-up-md 300ms ease-out both;
+  }
+
+  /* PULSE SM */
+  @keyframes pulse-sm {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+
+  .animate-pulse-sm {
+    animation: pulse-sm 1s ease-in-out infinite;
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html {
+  /* ! Do not use overflow hidden / clip / auto on the html element */
+  /* ! as it breaks scroll restoration */
+  overscroll-behavior: none;
+  height: 100%;
+  height: 100dvh;
+  width: 100%;
+  color-scheme: light;
+  -ms-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  /* using !important, otherwise radix sets it to "auto" when locking scroll */
+  height: 100% !important;
+  height: 100dvh !important;
+  width: 100%;
+  overscroll-behavior: none;
+  overflow: auto;
+}
+
+main {
+  flex-grow: 1;
+  position: relative;
+  min-height: 100vh;
+}
+
+#app {
+  height: initial;
+  flex-grow: 1;
+  flex-shrink: 0;
+  overflow: hidden;
+  overflow: clip;
+  display: flex;
+  flex-direction: column;
+}

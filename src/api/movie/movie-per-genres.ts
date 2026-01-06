@@ -1,6 +1,5 @@
-"use server";
 import { Movies } from "@/types/movie";
-import { upfetch } from "../upfetch";
+import { upfetch } from "../_upfetch";
 
 export const getMovieByGenre = async (
   genreId: number,

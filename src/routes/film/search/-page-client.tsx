@@ -1,5 +1,3 @@
-"use client";
-
 import { getMovieBySearch } from "@/api/movie/search-movie";
 import { MovieCard } from "@/components/movie-card";
 import { useHideMobileKeyboard } from "@/hook/useHideMobileKeyboard";

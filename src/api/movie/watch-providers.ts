@@ -1,5 +1,5 @@
 import { MovieWatchProviders } from "@/types/movie";
-import { upfetch } from "../upfetch";
+import { upfetch } from "../_upfetch";
 
 export const getWatchProviders = async (movieId: number) => {
   return upfetch<MovieWatchProviders>(`/movie/${movieId}/watch/providers`);

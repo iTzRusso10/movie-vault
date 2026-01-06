@@ -1,4 +1,4 @@
-import { IMAGE_URL_ORIGINAL } from "./app/const";
+import { IMAGE_URL_ORIGINAL } from "./routes/-const";
 
 export function getFilmImage(src: string | null): string {
   return src ? `${IMAGE_URL_ORIGINAL}${src}` : "/placeholder.jpg";
