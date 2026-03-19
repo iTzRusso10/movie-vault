@@ -1,4 +1,5 @@
 export const IMAGE_URL_ORIGINAL = "https://image.tmdb.org/t/p/original";
+export const IMAGE_URL_AVATAR = "https://image.tmdb.org/t/p/w45";
 
 export const MOVIE_GENRES = [
   { id: 27, label: "Horror" },

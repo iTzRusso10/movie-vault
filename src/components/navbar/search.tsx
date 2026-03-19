@@ -40,55 +40,78 @@ export default function Search() {
   };
 
   return (
-    <div className="flex w-full justify-center px-4">
+    <div className="flex w-full justify-center px-3 py-2.5 md:px-5 md:py-3">
       {!openInput ? (
-        <div className="flex items-center gap-3 md:gap-5 py-2 px-3 md:px-4 backdrop-blur bg-white/20 hover:bg-white/30 animate-compress mx-auto rounded-lg transition-all duration-300 shadow-lg border border-white/10">
+        <div className="flex w-full max-w-5xl items-center gap-4 md:gap-8">
           <Link
             to="/"
-            className="flex-shrink-0 hover:opacity-80 transition-opacity"
+            className="group flex shrink-0 items-center gap-3 rounded-xl pr-2 transition-opacity hover:opacity-90"
             aria-label="Home"
           >
-            <img
-              className="rounded-lg"
-              width={32}
-              height={32}
-              alt="logo-app"
-              src={logoApp}
-            />
+            <span className="relative">
+              <span className="absolute -inset-1 rounded-xl bg-mv-gold/20 opacity-0 blur-md transition-opacity group-hover:opacity-100" />
+              <img
+                className="relative rounded-lg ring-1 ring-mv-gold/30"
+                width={36}
+                height={36}
+                alt=""
+                src={logoApp}
+              />
+            </span>
+            <span className="hidden font-display text-lg font-semibold tracking-tight text-mv-cream sm:block">
+              Movie<span className="text-mv-gold">Vault</span>
+            </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-4">
-            <button className="text-white text-sm hover:text-purple-300 transition-colors font-medium">
+          <nav
+            className="hidden md:flex flex-1 items-center justify-center gap-10"
+            aria-label="Principale"
+          >
+            <span className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-mv-cream-muted">
+              Catalogo
+            </span>
+            <button
+              type="button"
+              className="font-sans text-sm font-medium text-mv-cream/90 transition-colors hover:text-mv-gold-bright"
+            >
               Film
             </button>
-            <button className="text-white text-sm hover:text-purple-300 transition-colors font-medium">
-              TV Series
+            <button
+              type="button"
+              className="font-sans text-sm text-mv-cream-muted/60 cursor-not-allowed"
+              disabled
+            >
+              Serie TV
             </button>
-            <button className="text-white text-sm hover:text-purple-300 transition-colors font-medium">
-              Wishlist
+            <button
+              type="button"
+              className="font-sans text-sm text-mv-cream-muted/60 cursor-not-allowed"
+              disabled
+            >
+              Lista desideri
             </button>
-          </div>
+          </nav>
 
           <button
             onClick={() => setOpenInput(true)}
-            className="p-2 bg-purple-800 hover:bg-purple-700 rounded-lg shadow-lg transition-all active:scale-95"
+            className="ml-auto flex h-11 w-11 items-center justify-center rounded-xl border border-mv-gold/25 bg-mv-ink/80 text-mv-gold-bright shadow-gold-glow transition-all hover:border-mv-gold/50 hover:bg-mv-panel active:scale-[0.97]"
             aria-label="Apri ricerca"
           >
-            <FaSearch className="text-white" size={16} />
+            <FaSearch size={17} />
           </button>
         </div>
       ) : (
-        <div className="relative flex items-center gap-2 w-full max-w-2xl">
+        <div className="relative flex w-full max-w-3xl items-center gap-2 md:gap-3">
           <div className="relative flex-1">
             <FaSearch
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-purple-400 z-10"
+              className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-mv-gold/70"
               size={16}
             />
             <input
               ref={inputRef}
-              placeholder="Cerca un film..."
-              type="text"
-              className="w-full h-12 md:h-14 pl-12 pr-4 bg-black/90 text-white rounded-xl outline-none border-2 border-purple-800 focus:border-purple-500 transition-all placeholder:text-gray-400"
+              placeholder="Titolo, regista, parola chiave…"
+              type="search"
+              className="h-12 w-full rounded-xl border border-mv-gold/20 bg-mv-void/90 pl-12 pr-4 font-sans text-mv-cream outline-none ring-0 transition-all placeholder:text-mv-cream-muted/50 focus:border-mv-gold/45 focus:shadow-[0_0_0_3px_rgba(212,165,116,0.12)] md:h-14"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -97,16 +120,19 @@ export default function Search() {
 
           {search.trim() && (
             <button
+              type="button"
               onClick={handleSearch}
-              className="h-12 md:h-14 px-4 md:px-6 bg-purple-800 hover:bg-purple-700 text-white rounded-xl transition-all active:scale-95 font-semibold"
+              className="h-12 shrink-0 rounded-xl border border-mv-gold/35 bg-mv-gold/15 px-5 font-sans text-sm font-semibold text-mv-gold-bright transition-all hover:bg-mv-gold/25 active:scale-[0.98] md:h-14 md:px-7"
             >
               Cerca
             </button>
           )}
 
           <button
+            type="button"
             onClick={handleClose}
-            className="h-12 md:h-14 w-12 md:w-14 flex items-center justify-center bg-gray-800 hover:bg-gray-700 text-white rounded-xl transition-all active:scale-95"
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-mv-cream/10 bg-mv-panel text-mv-cream-muted transition-all hover:border-mv-ember/40 hover:text-mv-cream md:h-14 md:w-14"
+            aria-label="Chiudi ricerca"
           >
             <FaTimes size={18} />
           </button>

@@ -3,10 +3,17 @@ import { MovieCard } from "@/components/movie-card";
 import { Skeleton } from "@/components/skeleton";
 import { useIntersectionObserver } from "crustack/hooks";
 
-export default function MovieList({ genre_id }: { genre_id: number }) {
+export default function MovieList({
+  genre_id,
+  year,
+}: {
+  genre_id: number;
+  year?: number;
+}) {
   const { data, hasNextPage, fetchNextPage, isLoading } =
     useInfiniteMovieByGenreQuery({
       genreId: genre_id,
+      year,
     });
 
   const { ref } = useIntersectionObserver((entry) => {
@@ -35,7 +42,7 @@ export default function MovieList({ genre_id }: { genre_id: number }) {
           Array.from({ length: 20 }).map((_, i) => (
             <Skeleton.Text
               key={i}
-              className="bg-gray-900 aspect-[2/3] h- full min-h-[400px]"
+              className="aspect-[2/3] min-h-[400px] rounded-xl bg-mv-panel ring-1 ring-mv-gold/10"
             />
           ))}
       </div>

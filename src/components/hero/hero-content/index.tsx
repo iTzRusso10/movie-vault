@@ -34,8 +34,8 @@ export const HeroContent = ({ movie, watchProviders }: HeroProps) => {
   const releaseYear = new Date(movie.release_date).getFullYear();
 
   return (
-    <div className="flex h-full">
-      <div className="relative w-full flex flex-col items-start justify-center h-full px-3 md:px-6 max-w-2xl text-white gap-4 animate-slide-right-md">
+    <div className="relative z-10 flex min-h-[70vh] md:min-h-[85vh]">
+      <div className="flex w-full max-w-2xl flex-col items-start justify-end gap-5 px-4 pb-14 pt-28 text-mv-cream md:justify-center md:gap-6 md:px-10 md:pb-20 md:pt-32 animate-slide-right-md">
         <HeroTitle
           images={images}
           movieDetails={movieDetails}

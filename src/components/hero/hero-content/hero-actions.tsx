@@ -16,22 +16,26 @@ export const HeroActions = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex gap-5 items-center">
-      <div className="bg-purple-600 rounded-full p-3 md:hidden">
-        <FaStar size={25} />
+    <div className="flex flex-wrap items-center gap-4 md:gap-5">
+      <div className="flex rounded-full border border-mv-gold/25 bg-mv-panel/80 p-3 md:hidden">
+        <FaStar className="text-mv-gold-bright" size={22} />
       </div>
-      <button className="hidden text-sm md:block px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors duration-300">
-        Add to wishlist
+      <button
+        type="button"
+        className="hidden rounded-lg border border-mv-gold/35 bg-mv-gold/10 px-6 py-2.5 font-sans text-sm font-semibold text-mv-gold-bright transition-all hover:bg-mv-gold/20 md:inline-flex"
+      >
+        Aggiungi alla lista
       </button>
       {!!movieTrailer && (
         <button
+          type="button"
           onClick={() => setIsOpen(true)}
-          className="px-6 py-2 bg-white text-sm text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-300"
+          className="rounded-lg border border-mv-cream/25 bg-mv-cream/5 px-6 py-2.5 font-sans text-sm font-semibold text-mv-cream transition-all hover:border-mv-cream/50 hover:bg-mv-cream/10"
         >
           Trailer
         </button>
       )}
-      <MovieAverage percentage={voteAverage} strokeWidth={6} size={54} />
+      <MovieAverage percentage={voteAverage} strokeWidth={5} size={56} />
       {!!movieTrailer && !!isOpen && (
         <YoutubeEmbed
           onClose={() => setIsOpen(false)}

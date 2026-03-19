@@ -3,5 +3,7 @@ interface HeroOverviewProps {
 }
 
 export const HeroOverview = ({ overview }: HeroOverviewProps) => (
-  <p className="text-sm hidden md:block">{overview}</p>
+  <p className="hidden max-w-xl font-sans text-sm leading-relaxed text-mv-cream/85 md:block md:text-base">
+    {overview}
+  </p>
 );

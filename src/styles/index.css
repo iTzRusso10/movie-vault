@@ -1,16 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap");
+
 @import "tailwindcss";
 
+@theme {
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+
+  --color-mv-void: #050506;
+  --color-mv-deep: #0c0b0e;
+  --color-mv-panel: #141218;
+  --color-mv-ink: #1a181f;
+
+  --color-mv-cream: #f2ebe0;
+  --color-mv-cream-muted: #b8b0a4;
+
+  --color-mv-gold: #d4a574;
+  --color-mv-gold-bright: #e8c9a0;
+  --color-mv-amber: #c9956c;
+
+  --color-mv-ember: #9e2f3d;
+  --color-mv-ember-glow: #c94d5c;
+
+  --shadow-marquee: 0 0 0 1px rgba(212, 165, 116, 0.12),
+    0 24px 80px -20px rgba(0, 0, 0, 0.85);
+  --shadow-gold-glow: 0 0 40px -8px rgba(212, 165, 116, 0.35);
+}
+
 @layer utilities {
-  /* COMPRESS */
   @keyframes compress {
     0% {
       transform: scale(1);
     }
     30% {
-      transform: scale(0.88); /* compressione più marcata */
+      transform: scale(0.88);
     }
     60% {
-      transform: scale(1.05); /* leggero overshoot */
+      transform: scale(1.05);
     }
     100% {
       transform: scale(1);
@@ -20,11 +45,11 @@
   .animate-compress {
     animation: compress 200ms ease-in-out both;
   }
-  /* SLIDE RIGHT MD */
+
   @keyframes slide-right-md {
     from {
       opacity: 0;
-      transform: translateX(-24px); /* parte da sinistra */
+      transform: translateX(-24px);
     }
     to {
       opacity: 1;
@@ -33,9 +58,9 @@
   }
 
   .animate-slide-right-md {
-    animation: slide-right-md 300ms ease-out both;
+    animation: slide-right-md 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-  /* SLIDE LEFT MD */
+
   @keyframes slide-left-md {
     from {
       opacity: 0;
@@ -48,14 +73,13 @@
   }
 
   .animate-slide-left-md {
-    animation: slide-left-md 300ms ease-out both;
+    animation: slide-left-md 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  /* SLIDE UP MD */
   @keyframes slide-up-md {
     from {
       opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(28px);
     }
     to {
       opacity: 1;
@@ -64,45 +88,100 @@
   }
 
   .animate-slide-up-md {
-    animation: slide-up-md 300ms ease-out both;
+    animation: slide-up-md 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  /* PULSE SM */
   @keyframes pulse-sm {
     0%,
     100% {
       opacity: 1;
     }
     50% {
-      opacity: 0.6;
+      opacity: 0.55;
     }
   }
 
   .animate-pulse-sm {
-    animation: pulse-sm 1s ease-in-out infinite;
+    animation: pulse-sm 1.2s ease-in-out infinite;
   }
-}
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  @keyframes mv-shine {
+    from {
+      background-position: 0% 50%;
+    }
+    to {
+      background-position: 200% 50%;
+    }
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  .animate-mv-shine {
+    animation: mv-shine 8s ease infinite;
+    background-size: 200% auto;
+  }
+
+  @keyframes mv-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-mv-fade-up {
+    animation: mv-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .mv-text-gradient {
+    background: linear-gradient(
+      120deg,
+      var(--color-mv-cream) 0%,
+      var(--color-mv-gold-bright) 45%,
+      var(--color-mv-gold) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .mv-noise {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.045;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .mv-vignette {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(
+      ellipse 85% 70% at 50% 40%,
+      transparent 0%,
+      rgba(5, 5, 6, 0.5) 100%
+    );
+  }
+
+  .mv-atmosphere {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
   }
 }
 
 html {
-  /* ! Do not use overflow hidden / clip / auto on the html element */
-  /* ! as it breaks scroll restoration */
   overscroll-behavior: none;
   height: 100%;
   height: 100dvh;
   width: 100%;
-  color-scheme: light;
+  color-scheme: dark;
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -110,15 +189,39 @@ html {
 }
 
 body {
-  background-color: black;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--color-mv-void);
+  color: var(--color-mv-cream);
   display: flex;
   flex-direction: column;
-  /* using !important, otherwise radix sets it to "auto" when locking scroll */
   height: 100% !important;
   height: 100dvh !important;
   width: 100%;
   overscroll-behavior: none;
   overflow: auto;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+      ellipse 120% 80% at 10% -10%,
+      rgba(158, 47, 61, 0.18) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 90% 60% at 100% 0%,
+      rgba(212, 165, 116, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 50% 100%,
+      rgba(20, 18, 24, 0.9) 0%,
+      var(--color-mv-void) 100%
+    );
 }
 
 main {
@@ -128,6 +231,8 @@ main {
 }
 
 #app {
+  position: relative;
+  isolation: isolate;
   height: initial;
   flex-grow: 1;
   flex-shrink: 0;
@@ -135,4 +240,9 @@ main {
   overflow: clip;
   display: flex;
   flex-direction: column;
+}
+
+::selection {
+  background: rgba(212, 165, 116, 0.35);
+  color: var(--color-mv-cream);
 }

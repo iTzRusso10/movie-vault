@@ -25,13 +25,13 @@ export const HeroWatchProviders = ({
     ).values(),
   ].filter(Boolean);
 
-  console.log(uniqueProviders);
-
   if (!uniqueProviders.length) return;
 
   return (
-    <div className="flex flex-wrap gap-2 items-center">
-      <p className="text-xs font-bold">Watch on:</p>
+    <div className="flex flex-wrap items-center gap-2">
+      <p className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-mv-cream-muted">
+        Dove guardare
+      </p>
       {uniqueProviders
         .sort((a, b) => {
           const aPriority =
@@ -50,15 +50,15 @@ export const HeroWatchProviders = ({
             to={validWatchProviders.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-wrap gap-2 items-center hover:opacity-80 transition-opacity"
-            title="Vedi dove guardare su TMDB"
+            className="flex flex-wrap items-center gap-2 rounded-lg ring-1 ring-transparent transition-all hover:opacity-90 hover:ring-mv-gold/25"
+            title="Apri su TMDB"
           >
             <img
               src={`${IMAGE_URL_ORIGINAL}${provider?.logo_path}`}
               alt={provider?.provider_name ?? ""}
               width={30}
               height={30}
-              className="rounded-lg object-contain"
+              className="rounded-md object-contain"
             />
           </Link>
         ))}

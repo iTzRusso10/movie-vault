@@ -9,29 +9,38 @@ interface HeroTitleProps {
 
 export const HeroTitle = ({ year, images, movieDetails }: HeroTitleProps) => {
   return (
-    <>
+    <header className="w-full space-y-3">
       {!getLogo(images) ? (
-        <h1 className="truncate !leading-normal text-wrap w-full text-3xl line-clamp-2 md:text-5xl font-extrabold">
-          {movieDetails.title}
+        <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-mv-cream md:text-5xl lg:text-6xl">
+          <span className="mv-text-gradient">{movieDetails.title}</span>
         </h1>
       ) : (
         <img
-          alt="film-logo"
+          alt={`Logo ${movieDetails.title}`}
           width={getLogo(images)?.width}
           height={getLogo(images)?.height}
           src={`${IMAGE_URL_ORIGINAL}` + getLogo(images)?.file_path}
-          className="w-auto h-auto md:max-w-[400px] md:max-h-[75px] max-w-[220px] max-h-[50px]"
+          className="h-auto max-h-[52px] w-auto max-w-[240px] object-contain object-left drop-shadow-lg md:max-h-[76px] md:max-w-[400px]"
         />
       )}
       {!!movieDetails.tagline && (
-        <p className="font-bold text-sm">{movieDetails.tagline}</p>
+        <p className="max-w-xl font-display text-base italic text-mv-gold/90 md:text-lg">
+          {movieDetails.tagline}
+        </p>
       )}
 
-      <p>
-        {year}{" "}
-        {!!movieDetails.runtime && <span>- {movieDetails.runtime}m</span>}
+      <p className="flex flex-wrap items-center gap-2 font-sans text-sm text-mv-cream-muted">
+        <span className="rounded border border-mv-gold/20 bg-mv-panel/60 px-2 py-0.5 font-semibold tracking-wide text-mv-gold-bright">
+          {Number.isFinite(year) ? year : "—"}
+        </span>
+        {!!movieDetails.runtime && (
+          <>
+            <span className="text-mv-cream-muted/40">·</span>
+            <span>{movieDetails.runtime} min</span>
+          </>
+        )}
       </p>
-    </>
+    </header>
   );
 };
 

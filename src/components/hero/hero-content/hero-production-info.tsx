@@ -13,13 +13,13 @@ export const HeroProductionInfo = ({
   if (!companies.length) return;
 
   return (
-    <div className="">
-      <p className="font-bold text-xs">
-        Production:{" "}
-        <span className="text-xs font-normal">
-          {companies.map((company) => company.name).join(", ")}
-        </span>
-      </p>
-    </div>
+    <p className="font-sans text-xs leading-relaxed text-mv-cream-muted">
+      <span className="font-semibold uppercase tracking-wider text-mv-cream/70">
+        Produzione
+      </span>{" "}
+      <span className="text-mv-cream-muted/90">
+        {companies.map((company) => company.name).join(", ")}
+      </span>
+    </p>
   );
 };

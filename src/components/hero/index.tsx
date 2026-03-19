@@ -9,7 +9,7 @@ export type HeroProps = {
 
 export const Hero = ({ movie, watchProviders }: HeroProps) => {
   return (
-    <section className="relative w-full h-[65vh] md:h-[80vh]">
+    <section className="relative isolate w-full min-h-[70vh] md:min-h-[85vh]">
       <HeroImage movie={movie} />
       <HeroContent movie={movie} watchProviders={watchProviders} />
     </section>

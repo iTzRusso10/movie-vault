@@ -30,14 +30,18 @@ export const Route = createRootRoute({
 
 function RootLayout() {
   return (
-    <html lang="en">
+    <html lang="it">
       <head>
         <HeadContent />
       </head>
       <body>
         <div id="app">
+          <div className="mv-atmosphere" aria-hidden>
+            <div className="mv-vignette" />
+            <div className="mv-noise" />
+          </div>
           <Navbar />
-          <main>
+          <main className="relative z-10">
             <Outlet />
           </main>
           <Footer />

@@ -5,5 +5,7 @@ export default function SearchFilmPagelayout({
 }: {
   children: ReactNode;
 }) {
-  return <div className="w-full h-full pt-20">{children}</div>;
+  return (
+    <div className="min-h-screen w-full pt-24 md:pt-28 pb-12">{children}</div>
+  );
 }

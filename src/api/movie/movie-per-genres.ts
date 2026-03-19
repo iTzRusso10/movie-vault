@@ -15,6 +15,10 @@ export const getMovieByFilters = async (
   year?: number
 ): Promise<Movies> => {
   return upfetch<Movies>(`/discover/movie`, {
-    params: { with_genres: genreId, page: page, primary_release_year: year },
+    params: {
+      with_genres: genreId,
+      page,
+      ...(year !== undefined ? { primary_release_year: year } : {}),
+    },
   });
 };

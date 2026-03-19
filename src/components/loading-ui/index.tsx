@@ -10,21 +10,24 @@ export function LoadingUI({ className }: Props) {
     <div
       className={cn(
         className,
-        "flex items-center h-screen max-h-[90vh] gap-2 justify-center"
+        "flex h-screen max-h-[90vh] flex-col items-center justify-center gap-4"
       )}
     >
-      <div className="motion-preset-pulse-sm flex gap-2">
+      <div className="animate-pulse-sm flex items-center gap-3">
         <img
-          src={"/movie-app-logo.jpeg"}
-          width={100}
-          height={100}
-          className="h-8 w-8"
-          alt="MovieVault Logo"
+          src="/movie-app-logo.jpeg"
+          width={48}
+          height={48}
+          className="h-10 w-10 rounded-lg ring-1 ring-mv-gold/30"
+          alt=""
         />
-        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-          MovieVault
+        <span className="font-display text-2xl font-semibold tracking-tight text-mv-cream">
+          Movie<span className="text-mv-gold">Vault</span>
         </span>
       </div>
+      <p className="font-sans text-[0.65rem] font-medium uppercase tracking-[0.35em] text-mv-cream-muted">
+        Caricamento…
+      </p>
     </div>
   );
 }

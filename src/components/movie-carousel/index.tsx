@@ -16,9 +16,9 @@ export function MoviesCarousel({ movies }: { movies: Movie[] }) {
       gap={14}
     >
       <ShadcnCarouselContent className="h-auto">
-        {movies.map((movie, i) => (
+        {movies.map((movie) => (
           <ShadcnCarouselItem
-            key={`slide-${i}-${movie.title}`}
+            key={movie.id}
             className={
               "!basis-[45%] sm:!basis-[30%] md:!basis-[23%] lg:!basis-[19%] xl:!basis-[14%]"
             }

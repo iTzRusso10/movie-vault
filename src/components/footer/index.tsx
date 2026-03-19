@@ -1,54 +1,79 @@
+import { Link } from "@tanstack/react-router";
+
 export const Footer = () => {
   return (
-    <footer className="bg-black border-t-[0.3px] border-t-gray-700 shadow px-3 py-20">
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <a
-            href=""
-            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
+    <footer className="relative z-10 mt-auto border-t border-mv-gold/10 bg-mv-deep/90">
+      <div className="mx-auto max-w-6xl px-5 py-14 md:px-8 md:py-20">
+        <div className="mb-10 flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+          <Link
+            to="/"
+            className="group flex items-center gap-4"
+            aria-label="MovieVault home"
           >
             <img
-              src={"/movie-app-logo.jpeg"}
-              width={100}
-              height={100}
-              className="h-8 w-8"
-              alt="MovieVault Logo"
+              src="/movie-app-logo.jpeg"
+              width={48}
+              height={48}
+              className="h-10 w-10 rounded-lg ring-1 ring-mv-gold/25 transition-shadow group-hover:shadow-gold-glow"
+              alt=""
             />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              MovieVault
-            </span>
-          </a>
-          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
-                Licensing
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline">
-                Contact
-              </a>
-            </li>
-          </ul>
+            <div>
+              <p className="font-display text-2xl font-semibold tracking-tight text-mv-cream">
+                Movie<span className="text-mv-gold">Vault</span>
+              </p>
+              <p className="mt-1 max-w-xs font-sans text-xs leading-relaxed text-mv-cream-muted">
+                La tua sala privata: scopri, cerca e segna ciò che vuoi
+                vedere.
+              </p>
+            </div>
+          </Link>
+
+          <nav
+            className="flex flex-wrap gap-x-8 gap-y-3 font-sans text-sm text-mv-cream-muted"
+            aria-label="Footer"
+          >
+            <a
+              href="#"
+              className="transition-colors hover:text-mv-gold-bright"
+            >
+              Chi siamo
+            </a>
+            <a
+              href="#"
+              className="transition-colors hover:text-mv-gold-bright"
+            >
+              Privacy
+            </a>
+            <a
+              href="#"
+              className="transition-colors hover:text-mv-gold-bright"
+            >
+              Licenze
+            </a>
+            <a
+              href="#"
+              className="transition-colors hover:text-mv-gold-bright"
+            >
+              Contatti
+            </a>
+          </nav>
         </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          © 2023{" "}
-          <a href="" className="hover:underline">
-            MovieVault
+
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-mv-gold/25 to-transparent" />
+
+        <p className="mt-8 text-center font-sans text-xs text-mv-cream-muted/70">
+          © {new Date().getFullYear()}{" "}
+          <span className="text-mv-cream/90">MovieVault</span>. Dati film da{" "}
+          <a
+            href="https://www.themoviedb.org/"
+            className="underline decoration-mv-gold/40 underline-offset-2 transition-colors hover:text-mv-gold-bright"
+            target="_blank"
+            rel="noreferrer"
+          >
+            TMDB
           </a>
-          . All Rights Reserved.
-        </span>
+          .
+        </p>
       </div>
     </footer>
   );
