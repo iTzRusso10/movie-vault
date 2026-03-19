@@ -40,36 +40,24 @@ export default function Search() {
   };
 
   return (
-    <div className="flex w-full justify-center px-3 py-2.5 md:px-5 md:py-3">
+    <div className="flex w-full max-w-3xl justify-center px-2">
       {!openInput ? (
-        <div className="flex w-full max-w-5xl items-center gap-4 md:gap-8">
+        <div className="flex w-full max-w-2xl animate-compress items-center gap-3 rounded-lg border border-mv-gold/15 bg-mv-deep/55 py-2 pl-2 pr-2 shadow-sm backdrop-blur-md transition-colors hover:bg-mv-deep/70 md:gap-5 md:px-4">
           <Link
             to="/"
-            className="group flex shrink-0 items-center gap-3 rounded-xl pr-2 transition-opacity hover:opacity-90"
+            className="shrink-0 rounded-md transition-opacity hover:opacity-85"
             aria-label="Home"
           >
-            <span className="relative">
-              <span className="absolute -inset-1 rounded-xl bg-mv-gold/20 opacity-0 blur-md transition-opacity group-hover:opacity-100" />
-              <img
-                className="relative rounded-lg ring-1 ring-mv-gold/30"
-                width={36}
-                height={36}
-                alt=""
-                src={logoApp}
-              />
-            </span>
-            <span className="hidden font-display text-lg font-semibold tracking-tight text-mv-cream sm:block">
-              Movie<span className="text-mv-gold">Vault</span>
-            </span>
+            <img
+              className="rounded-md"
+              width={32}
+              height={32}
+              alt=""
+              src={logoApp}
+            />
           </Link>
 
-          <nav
-            className="hidden md:flex flex-1 items-center justify-center gap-10"
-            aria-label="Principale"
-          >
-            <span className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-mv-cream-muted">
-              Catalogo
-            </span>
+          <div className="hidden items-center gap-4 md:flex">
             <button
               type="button"
               className="font-sans text-sm font-medium text-mv-cream/90 transition-colors hover:text-mv-gold-bright"
@@ -78,63 +66,64 @@ export default function Search() {
             </button>
             <button
               type="button"
-              className="font-sans text-sm text-mv-cream-muted/60 cursor-not-allowed"
+              className="font-sans text-sm text-mv-cream-muted/50"
               disabled
             >
               Serie TV
             </button>
             <button
               type="button"
-              className="font-sans text-sm text-mv-cream-muted/60 cursor-not-allowed"
+              className="font-sans text-sm text-mv-cream-muted/50"
               disabled
             >
               Lista desideri
             </button>
-          </nav>
+          </div>
 
           <button
+            type="button"
             onClick={() => setOpenInput(true)}
-            className="ml-auto flex h-11 w-11 items-center justify-center rounded-xl border border-mv-gold/25 bg-mv-ink/80 text-mv-gold-bright shadow-gold-glow transition-all hover:border-mv-gold/50 hover:bg-mv-panel active:scale-[0.97]"
+            className="ml-auto rounded-lg border border-mv-gold/25 bg-mv-gold/15 p-2 text-mv-gold-bright transition-colors hover:bg-mv-gold/25 active:scale-95"
             aria-label="Apri ricerca"
           >
-            <FaSearch size={17} />
+            <FaSearch size={16} />
           </button>
         </div>
       ) : (
-        <div className="relative flex w-full max-w-3xl items-center gap-2 md:gap-3">
-          <div className="relative flex-1">
+        <div className="flex w-full max-w-2xl items-center gap-2">
+          <div className="relative min-w-0 flex-1">
             <FaSearch
-              className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-mv-gold/70"
-              size={16}
+              className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-mv-gold/60"
+              size={14}
             />
             <input
               ref={inputRef}
-              placeholder="Titolo, regista, parola chiave…"
+              placeholder="Cerca un film…"
               type="search"
-              className="h-12 w-full rounded-xl border border-mv-gold/20 bg-mv-void/90 pl-12 pr-4 font-sans text-mv-cream outline-none ring-0 transition-all placeholder:text-mv-cream-muted/50 focus:border-mv-gold/45 focus:shadow-[0_0_0_3px_rgba(212,165,116,0.12)] md:h-14"
+              className="h-11 w-full rounded-lg border border-mv-gold/20 bg-mv-void/92 py-2 pl-10 pr-3 font-sans text-sm text-mv-cream outline-none transition-all placeholder:text-mv-cream-muted/55 focus:border-mv-gold/40"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={handleKeyDown}
             />
           </div>
 
-          {search.trim() && (
+          {search.trim() ? (
             <button
               type="button"
               onClick={handleSearch}
-              className="h-12 shrink-0 rounded-xl border border-mv-gold/35 bg-mv-gold/15 px-5 font-sans text-sm font-semibold text-mv-gold-bright transition-all hover:bg-mv-gold/25 active:scale-[0.98] md:h-14 md:px-7"
+              className="shrink-0 rounded-lg border border-mv-gold/35 bg-mv-gold/15 px-4 py-2 font-sans text-sm font-semibold text-mv-gold-bright transition-colors hover:bg-mv-gold/25"
             >
               Cerca
             </button>
-          )}
+          ) : null}
 
           <button
             type="button"
             onClick={handleClose}
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-mv-cream/10 bg-mv-panel text-mv-cream-muted transition-all hover:border-mv-ember/40 hover:text-mv-cream md:h-14 md:w-14"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-mv-cream/10 bg-mv-panel text-mv-cream-muted transition-colors hover:bg-mv-ink"
             aria-label="Chiudi ricerca"
           >
-            <FaTimes size={18} />
+            <FaTimes size={16} />
           </button>
         </div>
       )}
