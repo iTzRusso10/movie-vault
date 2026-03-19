@@ -72,11 +72,11 @@ function ReviewsSection({ reviews }: { reviews: MovieReview[] }) {
           Nessuna recensione nel database TMDB per questo film.
         </p>
       ) : (
-        <ul className="flex max-w-3xl flex-col gap-5">
+        <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-4 lg:gap-6">
           {reviews.map((rev) => (
             <li
               key={rev.id}
-              className="rounded-2xl border border-mv-gold/10 bg-mv-panel/50 p-5 shadow-marquee backdrop-blur-sm transition-colors hover:border-mv-gold/20"
+              className="flex min-h-0 min-w-0 flex-col rounded-2xl border border-mv-gold/10 bg-mv-panel/50 p-4 shadow-marquee backdrop-blur-sm transition-colors hover:border-mv-gold/20 sm:p-5"
             >
               <div className="mb-3 flex gap-3">
                 {reviewAvatarSrc(rev.author_details.avatar_path) ? (
@@ -110,7 +110,7 @@ function ReviewsSection({ reviews }: { reviews: MovieReview[] }) {
                   </p>
                 </div>
               </div>
-              <p className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-mv-cream/85">
+              <p className="min-h-0 flex-1 whitespace-pre-wrap wrap-break-word font-sans text-sm leading-relaxed text-mv-cream/85">
                 {rev.content}
               </p>
             </li>

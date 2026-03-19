@@ -19,10 +19,11 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
           <img
             loading="lazy"
             width={500}
-            height={1000}
-            src={getFilmImage(movie.poster_path)}
+            height={750}
+            src={getFilmImage(movie.poster_path, "w500")}
             className="aspect-[2/3] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
             alt={`Locandina di ${movie.title}`}
+            decoding="async"
           />
           <div className="absolute bottom-0 left-0 right-0 z-20 p-3 opacity-0 transition-all duration-300 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0">
             <p className="font-display text-sm font-semibold leading-tight text-mv-cream line-clamp-2 drop-shadow-md">

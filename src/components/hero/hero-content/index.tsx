@@ -10,22 +10,27 @@ import { HeroActions } from "./hero-actions";
 import { HeroProductionInfo } from "./hero-production-info";
 import { HeroWatchProviders } from "./hero-watch-providers";
 
+const HERO_QUERY_STALE = 1000 * 60 * 5;
+
 export const HeroContent = ({ movie, watchProviders }: HeroProps) => {
   const movieId = movie.id;
 
   const { data: movieDetails } = useQuery({
     queryKey: ["movie", movieId],
     queryFn: () => getMovieById(movieId),
+    staleTime: HERO_QUERY_STALE,
   });
 
   const { data: videos } = useQuery({
     queryKey: ["movie-videos", movieId],
     queryFn: () => getMovieVideos(movieId),
+    staleTime: HERO_QUERY_STALE,
   });
 
   const { data: images } = useQuery({
     queryKey: ["movie-images", movieId],
     queryFn: () => getMovieImages(movieId),
+    staleTime: HERO_QUERY_STALE,
   });
 
   if (!movieDetails || !videos || !images) return;
