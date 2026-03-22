@@ -1,4 +1,5 @@
 import { useInfiniteMovieByGenreQuery } from "@/api/movie/use-movie-query";
+import type { GenreDiscoverSort } from "@/api/movie/movie-per-genres";
 import { MovieCard } from "@/components/movie-card";
 import { Skeleton } from "@/components/skeleton";
 import { useIntersectionObserver } from "crustack/hooks";
@@ -6,14 +7,17 @@ import { useIntersectionObserver } from "crustack/hooks";
 export default function MovieList({
   genre_id,
   year,
+  sort = "popularity",
 }: {
   genre_id: number;
   year?: number;
+  sort?: GenreDiscoverSort;
 }) {
   const { data, hasNextPage, fetchNextPage, isLoading } =
     useInfiniteMovieByGenreQuery({
       genreId: genre_id,
       year,
+      sort,
     });
 
   const { ref } = useIntersectionObserver((entry) => {
