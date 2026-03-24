@@ -23,7 +23,7 @@ function ProfilePage() {
 
   if (!loading && !user) {
     return (
-      <div className="mx-auto max-w-lg px-4 pt-28 pb-16">
+      <div className="mx-auto max-w-lg px-4 pt-6 pb-16">
         <p className="font-sans text-mv-cream-muted">
           Accedi per vedere il profilo.
         </p>
@@ -39,7 +39,7 @@ function ProfilePage() {
 
   if (loading || !user) {
     return (
-      <div className="mx-auto max-w-lg px-4 pt-28 pb-16 font-sans text-sm text-mv-cream-muted">
+      <div className="mx-auto max-w-lg px-4 pt-6 pb-16 font-sans text-sm text-mv-cream-muted">
         Caricamento…
       </div>
     );
@@ -63,7 +63,7 @@ function ProfilePage() {
   };
 
   return (
-    <div className="relative overflow-hidden px-4 pt-24 pb-16 md:pt-32 md:pb-24">
+    <div className="relative overflow-hidden px-4 pt-6 pb-16 md:pt-8 md:pb-24">
       <div
         className="pointer-events-none absolute -right-24 top-0 h-72 w-72 rounded-full bg-mv-burgundy/25 blur-3xl"
         aria-hidden

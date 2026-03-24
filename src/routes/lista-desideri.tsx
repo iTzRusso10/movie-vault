@@ -39,7 +39,7 @@ function ListaDesideriPage() {
 
   if (authLoading) {
     return (
-      <div className="px-4 pt-28 pb-16 text-center font-sans text-mv-cream-muted">
+      <div className="px-4 pt-6 pb-16 text-center font-sans text-mv-cream-muted">
         Caricamento…
       </div>
     );
@@ -47,7 +47,7 @@ function ListaDesideriPage() {
 
   if (!user || !token) {
     return (
-      <div className="mx-auto max-w-lg px-4 pt-32 pb-20">
+      <div className="mx-auto max-w-lg px-4 pt-8 pb-20">
         <h1 className="font-display text-3xl text-mv-cream">
           Lista desideri
         </h1>
@@ -68,7 +68,7 @@ function ListaDesideriPage() {
   const empty = !isFetching && items.length === 0;
 
   return (
-    <div className="relative min-h-[70vh] overflow-hidden px-4 pt-20 pb-14 md:px-10 md:pt-28 md:pb-20">
+    <div className="relative min-h-[70vh] overflow-hidden px-4 pt-6 pb-14 md:px-10 md:pt-8 md:pb-20">
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.07]"
         style={{

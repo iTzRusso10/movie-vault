@@ -40,7 +40,7 @@ export const HeroContent = ({ movie, watchProviders }: HeroProps) => {
 
   return (
     <div className="relative z-10 flex min-h-[70vh] md:min-h-[85vh]">
-      <div className="flex w-full max-w-2xl flex-col items-start justify-end gap-5 px-4 pb-14 pt-28 text-mv-cream md:justify-center md:gap-6 md:px-10 md:pb-20 md:pt-32 animate-slide-right-md">
+      <div className="flex w-full max-w-2xl flex-col items-start justify-end gap-5 px-4 pb-14 pt-[var(--mv-nav-clearance)] text-mv-cream md:justify-center md:gap-6 md:px-10 md:pb-20 md:pt-32 animate-slide-right-md">
         <HeroTitle
           images={images}
           movieDetails={movieDetails}

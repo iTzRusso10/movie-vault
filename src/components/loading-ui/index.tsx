@@ -10,7 +10,7 @@ export function LoadingUI({ className }: Props) {
     <div
       className={cn(
         className,
-        "flex h-screen max-h-[90vh] flex-col items-center justify-center gap-4"
+        "flex min-h-[calc(100dvh-var(--mv-nav-clearance))] max-h-[90dvh] flex-col items-center justify-center gap-4 pt-2"
       )}
     >
       <div className="animate-pulse-sm flex items-center gap-3">

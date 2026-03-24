@@ -85,7 +85,7 @@ function MoviePerGenresPage() {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div
-        className={`flex flex-col ${!heroMovie ? "pt-28 md:pt-32" : ""}`}
+        className={`flex flex-col ${!heroMovie ? "pt-4 md:pt-6" : ""}`}
       >
         {heroMovie ? <Hero movie={heroMovie} /> : null}
         <div className="flex flex-col gap-6 px-4 pb-16 pt-8 md:px-10">

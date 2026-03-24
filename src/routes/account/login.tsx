@@ -35,7 +35,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="mx-auto flex min-h-[60vh] max-w-md flex-col justify-center px-4 py-16">
+    <div className="mx-auto flex min-h-[60vh] max-w-md flex-col justify-start px-4 pt-6 pb-16 md:min-h-[65vh] md:pt-8 md:pb-20">
       <h1 className="mb-2 font-display text-3xl font-semibold text-mv-cream">
         Accedi
       </h1>
