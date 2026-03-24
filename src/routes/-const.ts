@@ -1,6 +1,12 @@
 export const IMAGE_URL_ORIGINAL = "https://image.tmdb.org/t/p/original";
 export const IMAGE_URL_AVATAR = "https://image.tmdb.org/t/p/w45";
 
+/** Base URL player esterno (id = TMDB movie id). */
+export const VIXSRC_MOVIE_BASE = "https://vixsrc.to/movie";
+
+/** Codice lingua richiesta al player (`?lang=…`). Dipende da cosa offre il sito. */
+export const VIXSRC_PREFERRED_LANG = "it";
+
 export const MOVIE_GENRES = [
   { id: 27, label: "Horror" },
   { id: 35, label: "Comedy" },
