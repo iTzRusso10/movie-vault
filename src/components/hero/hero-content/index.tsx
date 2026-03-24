@@ -49,6 +49,9 @@ export const HeroContent = ({ movie, watchProviders }: HeroProps) => {
         <HeroGenres genres={movieDetails.genres} />
         <HeroOverview overview={movieDetails.overview} />
         <HeroActions
+          movieId={movieDetails.id}
+          movieTitle={movieDetails.title}
+          posterPath={movieDetails.poster_path}
           movieTrailer={trailer}
           voteAverage={movieDetails.vote_average * 10}
         />

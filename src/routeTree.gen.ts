@@ -9,11 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ListaDesideriRouteImport } from './routes/lista-desideri'
 import { Route as homeIndexRouteImport } from './routes/(home)/index'
 import { Route as FilmId_and_titleRouteImport } from './routes/film/$id_and_title'
+import { Route as AccountRegisterRouteImport } from './routes/account/register'
+import { Route as AccountProfileRouteImport } from './routes/account/profile'
+import { Route as AccountLoginRouteImport } from './routes/account/login'
 import { Route as FilmSearchIndexRouteImport } from './routes/film/search/index'
 import { Route as FilmGenresGenres_and_idRouteImport } from './routes/film/genres/$genres_and_id'
 
+const ListaDesideriRoute = ListaDesideriRouteImport.update({
+  id: '/lista-desideri',
+  path: '/lista-desideri',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const homeIndexRoute = homeIndexRouteImport.update({
   id: '/(home)/',
   path: '/',
@@ -22,6 +31,21 @@ const homeIndexRoute = homeIndexRouteImport.update({
 const FilmId_and_titleRoute = FilmId_and_titleRouteImport.update({
   id: '/film/$id_and_title',
   path: '/film/$id_and_title',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountRegisterRoute = AccountRegisterRouteImport.update({
+  id: '/account/register',
+  path: '/account/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountProfileRoute = AccountProfileRouteImport.update({
+  id: '/account/profile',
+  path: '/account/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountLoginRoute = AccountLoginRouteImport.update({
+  id: '/account/login',
+  path: '/account/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FilmSearchIndexRoute = FilmSearchIndexRouteImport.update({
@@ -36,12 +60,20 @@ const FilmGenresGenres_and_idRoute = FilmGenresGenres_and_idRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/lista-desideri': typeof ListaDesideriRoute
+  '/account/login': typeof AccountLoginRoute
+  '/account/profile': typeof AccountProfileRoute
+  '/account/register': typeof AccountRegisterRoute
   '/film/$id_and_title': typeof FilmId_and_titleRoute
   '/': typeof homeIndexRoute
   '/film/genres/$genres_and_id': typeof FilmGenresGenres_and_idRoute
   '/film/search': typeof FilmSearchIndexRoute
 }
 export interface FileRoutesByTo {
+  '/lista-desideri': typeof ListaDesideriRoute
+  '/account/login': typeof AccountLoginRoute
+  '/account/profile': typeof AccountProfileRoute
+  '/account/register': typeof AccountRegisterRoute
   '/film/$id_and_title': typeof FilmId_and_titleRoute
   '/': typeof homeIndexRoute
   '/film/genres/$genres_and_id': typeof FilmGenresGenres_and_idRoute
@@ -49,6 +81,10 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/lista-desideri': typeof ListaDesideriRoute
+  '/account/login': typeof AccountLoginRoute
+  '/account/profile': typeof AccountProfileRoute
+  '/account/register': typeof AccountRegisterRoute
   '/film/$id_and_title': typeof FilmId_and_titleRoute
   '/(home)/': typeof homeIndexRoute
   '/film/genres/$genres_and_id': typeof FilmGenresGenres_and_idRoute
@@ -57,18 +93,30 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/lista-desideri'
+    | '/account/login'
+    | '/account/profile'
+    | '/account/register'
     | '/film/$id_and_title'
     | '/'
     | '/film/genres/$genres_and_id'
     | '/film/search'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/lista-desideri'
+    | '/account/login'
+    | '/account/profile'
+    | '/account/register'
     | '/film/$id_and_title'
     | '/'
     | '/film/genres/$genres_and_id'
     | '/film/search'
   id:
     | '__root__'
+    | '/lista-desideri'
+    | '/account/login'
+    | '/account/profile'
+    | '/account/register'
     | '/film/$id_and_title'
     | '/(home)/'
     | '/film/genres/$genres_and_id'
@@ -76,6 +124,10 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  ListaDesideriRoute: typeof ListaDesideriRoute
+  AccountLoginRoute: typeof AccountLoginRoute
+  AccountProfileRoute: typeof AccountProfileRoute
+  AccountRegisterRoute: typeof AccountRegisterRoute
   FilmId_and_titleRoute: typeof FilmId_and_titleRoute
   homeIndexRoute: typeof homeIndexRoute
   FilmGenresGenres_and_idRoute: typeof FilmGenresGenres_and_idRoute
@@ -84,6 +136,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/lista-desideri': {
+      id: '/lista-desideri'
+      path: '/lista-desideri'
+      fullPath: '/lista-desideri'
+      preLoaderRoute: typeof ListaDesideriRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(home)/': {
       id: '/(home)/'
       path: '/'
@@ -96,6 +155,27 @@ declare module '@tanstack/react-router' {
       path: '/film/$id_and_title'
       fullPath: '/film/$id_and_title'
       preLoaderRoute: typeof FilmId_and_titleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/register': {
+      id: '/account/register'
+      path: '/account/register'
+      fullPath: '/account/register'
+      preLoaderRoute: typeof AccountRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/profile': {
+      id: '/account/profile'
+      path: '/account/profile'
+      fullPath: '/account/profile'
+      preLoaderRoute: typeof AccountProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/login': {
+      id: '/account/login'
+      path: '/account/login'
+      fullPath: '/account/login'
+      preLoaderRoute: typeof AccountLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/film/search/': {
@@ -116,6 +196,10 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  ListaDesideriRoute: ListaDesideriRoute,
+  AccountLoginRoute: AccountLoginRoute,
+  AccountProfileRoute: AccountProfileRoute,
+  AccountRegisterRoute: AccountRegisterRoute,
   FilmId_and_titleRoute: FilmId_and_titleRoute,
   homeIndexRoute: homeIndexRoute,
   FilmGenresGenres_and_idRoute: FilmGenresGenres_and_idRoute,

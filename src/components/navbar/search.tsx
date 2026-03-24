@@ -2,6 +2,7 @@ import { useNavigate, Link } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import logoApp from "../../../public/movie-app-logo.jpeg";
+import { NavbarAuthLinks } from "./auth-links";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -71,23 +72,25 @@ export default function Search() {
             >
               Serie TV
             </button>
-            <button
-              type="button"
-              className="font-sans text-sm text-mv-cream-muted/50"
-              disabled
+            <Link
+              to="/lista-desideri"
+              className="font-sans text-sm font-medium text-mv-cream/90 transition-colors hover:text-mv-gold-bright"
             >
               Lista desideri
-            </button>
+            </Link>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setOpenInput(true)}
-            className="ml-auto rounded-lg border border-mv-gold/25 bg-mv-gold/15 p-2 text-mv-gold-bright transition-colors hover:bg-mv-gold/25 active:scale-95"
-            aria-label="Apri ricerca"
-          >
-            <FaSearch size={16} />
-          </button>
+          <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+            <NavbarAuthLinks />
+            <button
+              type="button"
+              onClick={() => setOpenInput(true)}
+              className="rounded-lg border border-mv-gold/25 bg-mv-gold/15 p-2 text-mv-gold-bright transition-colors hover:bg-mv-gold/25 active:scale-95"
+              aria-label="Apri ricerca"
+            >
+              <FaSearch size={16} />
+            </button>
+          </div>
         </div>
       ) : (
         <div className="flex w-full max-w-2xl items-center gap-2">

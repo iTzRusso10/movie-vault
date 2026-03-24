@@ -1,15 +1,22 @@
 import { FaStar } from "react-icons/fa6";
 import { useState } from "react";
+import { WishlistButton } from "@/components/wishlist/wishlist-button";
 import { MovieVideo } from "@/types/movie";
 import { MovieAverage } from "../../movie-average";
 import YoutubeEmbed from "../../youtube-embed";
 
 interface HeroActionsProps {
+  movieId: number;
+  movieTitle: string;
+  posterPath: string | null;
   movieTrailer?: MovieVideo;
   voteAverage: number;
 }
 
 export const HeroActions = ({
+  movieId,
+  movieTitle,
+  posterPath,
   movieTrailer,
   voteAverage,
 }: HeroActionsProps) => {
@@ -20,12 +27,12 @@ export const HeroActions = ({
       <div className="flex rounded-full border border-mv-gold/25 bg-mv-panel/80 p-3 md:hidden">
         <FaStar className="text-mv-gold-bright" size={22} />
       </div>
-      <button
-        type="button"
-        className="hidden rounded-lg border border-mv-gold/35 bg-mv-gold/10 px-6 py-2.5 font-sans text-sm font-semibold text-mv-gold-bright transition-all hover:bg-mv-gold/20 md:inline-flex"
-      >
-        Aggiungi alla lista
-      </button>
+      <WishlistButton
+        variant="hero"
+        movieId={movieId}
+        title={movieTitle}
+        posterPath={posterPath}
+      />
       {!!movieTrailer && (
         <button
           type="button"

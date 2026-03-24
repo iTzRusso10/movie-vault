@@ -21,6 +21,11 @@
 /build
 /dist
 
+# Auth DB locale (SQLite + file WAL) — la cartella data/ resta nel repo (.gitkeep)
+data/*.sqlite
+data/*.sqlite-wal
+data/*.sqlite-shm
+
 # misc
 .DS_Store
 *.pem

@@ -7,6 +7,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import { AuthProvider } from "@/lib/auth-context";
 
 export function getRouter() {
   const queryClient = new QueryClient({
@@ -45,7 +46,7 @@ export function getRouter() {
     Wrap({ children }) {
       return (
         <QueryClientProvider client={queryClient}>
-          {children}
+          <AuthProvider>{children}</AuthProvider>
         </QueryClientProvider>
       );
     },

@@ -5,8 +5,6 @@ import { Link } from "@tanstack/react-router";
 export const MovieCard = ({ movie }: { movie: Movie }) => {
   const releaseYear = new Date(movie.release_date).getFullYear();
 
-  if (!movie.poster_path && !movie.backdrop_path) return;
-
   return (
     <article className="group flex h-full flex-col">
       <Link
