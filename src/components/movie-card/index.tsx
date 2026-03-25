@@ -1,3 +1,4 @@
+import { MovieRatingStars } from "@/components/movie-rating-stars";
 import { Movie } from "@/types/movie";
 import { getFilmImage } from "@/utils";
 import { Link } from "@tanstack/react-router";
@@ -29,11 +30,19 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
             </p>
           </div>
         </div>
-        <div className="mt-2 flex items-baseline justify-between gap-2 px-0.5">
-          <p className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-mv-gold/80">
-            {Number.isFinite(releaseYear) ? releaseYear : "—"}
-          </p>
-          <span className="h-px flex-1 max-w-8 bg-gradient-to-r from-mv-gold/40 to-transparent" />
+        <div className="mt-2 space-y-1.5 px-0.5">
+          <div className="flex items-baseline justify-between gap-2">
+            <p className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-mv-gold/80">
+              {Number.isFinite(releaseYear) ? releaseYear : "—"}
+            </p>
+            <span className="h-px flex-1 max-w-8 bg-gradient-to-r from-mv-gold/40 to-transparent" />
+          </div>
+          <MovieRatingStars
+            voteAverage={movie.vote_average}
+            voteCount={movie.vote_count}
+            size="sm"
+            className="opacity-95"
+          />
         </div>
       </Link>
     </article>

@@ -4,6 +4,13 @@ export const IMAGE_URL_AVATAR = "https://image.tmdb.org/t/p/w45";
 /** Base URL player esterno (id = TMDB movie id). */
 export const VIXSRC_MOVIE_BASE = "https://vixsrc.to/movie";
 
+/**
+ * Catalogo film TMDB per lingua (`type`: movie | tv | episode). Serve trailing `/` (evita 301 → http).
+ * @see https://vixsrc.to/api/list/movie/?lang=it
+ */
+export const vixsrcListUrl = (type: "movie" | "tv" | "episode", lang: string) =>
+  `https://vixsrc.to/api/list/${type}/?lang=${encodeURIComponent(lang)}`;
+
 /** Codice lingua richiesta al player (`?lang=…`). Dipende da cosa offre il sito. */
 export const VIXSRC_PREFERRED_LANG = "it";
 

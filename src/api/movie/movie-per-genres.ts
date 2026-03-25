@@ -5,7 +5,10 @@ import { upfetch } from "../_upfetch";
 export type GenreDiscoverSort = "popularity" | "rated";
 
 export type GenreDiscoverOptions = {
-  year?: number;
+  /** Inizio periodo (incluso), anno intero. */
+  yearMin?: number;
+  /** Fine periodo (incluso), anno intero. */
+  yearMax?: number;
   /** `rated` = vote_average.desc + min voti (evita 10/10 con 3 voti). */
   sort?: GenreDiscoverSort;
 };
@@ -24,7 +27,7 @@ export const getMovieByFilters = async (
   page: number,
   options?: GenreDiscoverOptions
 ): Promise<Movies> => {
-  const { year, sort = "popularity" } = options ?? {};
+  const { yearMin, yearMax, sort = "popularity" } = options ?? {};
 
   const params: Record<string, string | number> = {
     with_genres: genreId,
@@ -32,8 +35,14 @@ export const getMovieByFilters = async (
     sort_by: sort === "rated" ? "vote_average.desc" : "popularity.desc",
   };
 
-  if (year !== undefined) {
-    params.primary_release_year = year;
+  if (yearMin !== undefined || yearMax !== undefined) {
+    const current = new Date().getFullYear();
+    const minY = yearMin ?? 1900;
+    const maxY = yearMax ?? current;
+    const from = Math.min(minY, maxY);
+    const to = Math.max(minY, maxY);
+    params["primary_release_date.gte"] = `${from}-01-01`;
+    params["primary_release_date.lte"] = `${to}-12-31`;
   }
 
   if (sort === "rated") {

@@ -6,17 +6,20 @@ import { useIntersectionObserver } from "crustack/hooks";
 
 export default function MovieList({
   genre_id,
-  year,
+  yearMin,
+  yearMax,
   sort = "popularity",
 }: {
   genre_id: number;
-  year?: number;
+  yearMin?: number;
+  yearMax?: number;
   sort?: GenreDiscoverSort;
 }) {
   const { data, hasNextPage, fetchNextPage, isLoading } =
     useInfiniteMovieByGenreQuery({
       genreId: genre_id,
-      year,
+      yearMin,
+      yearMax,
       sort,
     });
 

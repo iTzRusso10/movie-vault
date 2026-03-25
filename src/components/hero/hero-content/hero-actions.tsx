@@ -3,7 +3,7 @@ import { useState } from "react";
 import StreamEmbed from "@/components/stream-embed";
 import { WishlistButton } from "@/components/wishlist/wishlist-button";
 import { MovieVideo } from "@/types/movie";
-import { MovieAverage } from "../../movie-average";
+import { MovieRatingStars } from "@/components/movie-rating-stars";
 import YoutubeEmbed from "../../youtube-embed";
 
 interface HeroActionsProps {
@@ -12,6 +12,9 @@ interface HeroActionsProps {
   posterPath: string | null;
   movieTrailer?: MovieVideo;
   voteAverage: number;
+  voteCount: number;
+  /** False se il film non è nel catalogo VixSRC (`lang=it`). */
+  showStreamButton?: boolean;
 }
 
 export const HeroActions = ({
@@ -20,6 +23,8 @@ export const HeroActions = ({
   posterPath,
   movieTrailer,
   voteAverage,
+  voteCount,
+  showStreamButton = true,
 }: HeroActionsProps) => {
   const [trailerOpen, setTrailerOpen] = useState(false);
   const [streamOpen, setStreamOpen] = useState(false);
@@ -35,17 +40,19 @@ export const HeroActions = ({
         title={movieTitle}
         posterPath={posterPath}
       />
-      <button
-        type="button"
-        onClick={() => {
-          setTrailerOpen(false);
-          setStreamOpen(true);
-        }}
-        className="inline-flex items-center gap-2 rounded-lg border border-mv-ember/40 bg-mv-ember/15 px-6 py-2.5 font-sans text-sm font-semibold text-mv-cream transition-all hover:border-mv-ember-glow/55 hover:bg-mv-ember/25"
-      >
-        <FaPlay className="shrink-0 text-mv-gold-bright" size={14} />
-        Riproduci
-      </button>
+      {showStreamButton ? (
+        <button
+          type="button"
+          onClick={() => {
+            setTrailerOpen(false);
+            setStreamOpen(true);
+          }}
+          className="inline-flex items-center gap-2 rounded-lg border border-mv-ember/40 bg-mv-ember/15 px-6 py-2.5 font-sans text-sm font-semibold text-mv-cream transition-all hover:border-mv-ember-glow/55 hover:bg-mv-ember/25"
+        >
+          <FaPlay className="shrink-0 text-mv-gold-bright" size={14} />
+          Riproduci
+        </button>
+      ) : null}
       {!!movieTrailer && (
         <button
           type="button"
@@ -58,14 +65,19 @@ export const HeroActions = ({
           Trailer
         </button>
       )}
-      <MovieAverage percentage={voteAverage} strokeWidth={5} size={56} />
+      <MovieRatingStars
+        voteAverage={voteAverage}
+        voteCount={voteCount}
+        size="lg"
+        className="md:ml-1"
+      />
       {!!movieTrailer && trailerOpen ? (
         <YoutubeEmbed
           onClose={() => setTrailerOpen(false)}
           video_id={movieTrailer.key}
         />
       ) : null}
-      {streamOpen ? (
+      {streamOpen && showStreamButton ? (
         <StreamEmbed
           movieId={movieId}
           movieTitle={movieTitle}

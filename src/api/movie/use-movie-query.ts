@@ -6,17 +6,24 @@ import {
 
 export const useInfiniteMovieByGenreQuery = ({
   genreId,
-  year,
+  yearMin,
+  yearMax,
   sort = "popularity",
 }: {
   genreId: number;
-  year?: number;
+  yearMin?: number;
+  yearMax?: number;
   sort?: GenreDiscoverSort;
 }) => {
+  const rangeKey =
+    yearMin != null || yearMax != null
+      ? `${yearMin ?? "x"}-${yearMax ?? "x"}`
+      : "all";
+
   return useInfiniteQuery({
-    queryKey: ["movie", genreId, year ?? "all", sort],
+    queryKey: ["movie", genreId, rangeKey, sort],
     queryFn: ({ pageParam = 1 }) =>
-      getMovieByFilters(genreId, pageParam, { year, sort }),
+      getMovieByFilters(genreId, pageParam, { yearMin, yearMax, sort }),
     getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : null,
     initialPageParam: 1,
