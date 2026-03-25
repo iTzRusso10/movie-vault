@@ -1,6 +1,5 @@
 import { getTrendMovie } from "@/api/movie/trend-movie";
 import { MoviePerGenresSection } from "../../components/movie-per-genre-section";
-import { TvPerGenresSection } from "../../components/tv-per-genre-section";
 import { Hero } from "../../components/hero";
 import { getWatchProviders } from "@/api/movie/watch-providers";
 import { createFileRoute } from "@tanstack/react-router";
@@ -50,7 +49,6 @@ function Home() {
     <div className="flex flex-col">
       <Hero movie={trendMovie} watchProviders={watchProviders.results} />
       <MoviePerGenresSection />
-      <TvPerGenresSection />
     </div>
   );
 }

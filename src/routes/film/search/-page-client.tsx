@@ -5,9 +5,13 @@ import { TvCard } from "@/components/tv-card";
 import { useHideMobileKeyboard } from "@/hook/useHideMobileKeyboard";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/skeleton";
+import { useState } from "react";
+
+type SearchTab = "film" | "tv";
 
 export default function SearchPageClient({ query }: { query: string }) {
   useHideMobileKeyboard();
+  const [tab, setTab] = useState<SearchTab>("film");
 
   const movieQ = useQuery({
     queryKey: ["search-movies", query],
@@ -33,7 +37,7 @@ export default function SearchPageClient({ query }: { query: string }) {
       {Array.from({ length: 12 }).map((_, i) => (
         <Skeleton.Text
           key={i}
-          className="aspect-[2/3] min-h-[220px] rounded-xl bg-mv-panel ring-1 ring-mv-gold/10"
+          className="aspect-2/3 min-h-[220px] rounded-xl bg-mv-panel ring-1 ring-mv-gold/10"
         />
       ))}
     </div>
@@ -42,50 +46,82 @@ export default function SearchPageClient({ query }: { query: string }) {
   return (
     <div className="mx-auto max-w-7xl px-4 md:px-8">
       {query ? (
-        <p className="mb-8 font-sans text-sm text-mv-cream-muted">
+        <p className="mb-6 font-sans text-sm text-mv-cream-muted">
           Risultati per{" "}
           <span className="font-semibold text-mv-gold-bright">«{query}»</span>
-          {" — "}
-          <span className="text-mv-cream-muted/90">film e serie TV</span>
         </p>
       ) : (
-        <p className="mb-8 font-sans text-sm text-mv-cream-muted">
+        <p className="mb-6 font-sans text-sm text-mv-cream-muted">
           Inserisci un termine nella barra di ricerca.
         </p>
       )}
 
       {!query ? null : (
-        <div className="flex flex-col gap-12 md:gap-14">
-          <section aria-labelledby="search-film-heading">
-            <h2
-              id="search-film-heading"
-              className="mb-5 font-display text-2xl font-semibold tracking-tight text-mv-cream md:text-3xl"
+        <div className="flex flex-col gap-6">
+          <div
+            role="tablist"
+            aria-label="Tipo di contenuto"
+            className="flex w-full gap-1 rounded-xl border border-mv-gold/20 bg-mv-panel/40 p-1 sm:inline-flex sm:w-auto"
+          >
+            <button
+              type="button"
+              role="tab"
+              aria-selected={tab === "film"}
+              id="search-tab-film"
+              onClick={() => setTab("film")}
+              className={`min-w-0 flex-1 rounded-lg px-4 py-2.5 font-sans text-sm font-semibold transition-colors sm:flex-initial sm:min-w-[140px] ${
+                tab === "film"
+                  ? "bg-mv-gold/15 text-mv-gold-bright ring-1 ring-mv-gold/35"
+                  : "text-mv-cream-muted hover:text-mv-cream"
+              }`}
             >
               Film
-            </h2>
-            {movieLoading ? (
-              skeletonGrid
-            ) : movies.length > 0 ? (
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6 lg:gap-6">
-                {movies.map((movie) => (
-                  <MovieCard key={movie.id} movie={movie} />
-                ))}
-              </div>
-            ) : (
-              <p className="rounded-2xl border border-mv-gold/10 bg-mv-panel/40 px-6 py-8 text-center font-sans text-sm text-mv-cream-muted">
-                Nessun film corrispondente.
-              </p>
-            )}
-          </section>
-
-          <section aria-labelledby="search-tv-heading">
-            <h2
-              id="search-tv-heading"
-              className="mb-5 font-display text-2xl font-semibold tracking-tight text-mv-cream md:text-3xl"
+              {!movieLoading && movieQ.data ? (
+                <span className="ml-1.5 tabular-nums opacity-80">
+                  ({movies.length})
+                </span>
+              ) : null}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={tab === "tv"}
+              id="search-tab-tv"
+              onClick={() => setTab("tv")}
+              className={`min-w-0 flex-1 rounded-lg px-4 py-2.5 font-sans text-sm font-semibold transition-colors sm:flex-initial sm:min-w-[140px] ${
+                tab === "tv"
+                  ? "bg-mv-gold/15 text-mv-gold-bright ring-1 ring-mv-gold/35"
+                  : "text-mv-cream-muted hover:text-mv-cream"
+              }`}
             >
               Serie TV
-            </h2>
-            {tvLoading ? (
+              {!tvLoading && tvQ.data ? (
+                <span className="ml-1.5 tabular-nums opacity-80">
+                  ({shows.length})
+                </span>
+              ) : null}
+            </button>
+          </div>
+
+          <div
+            role="tabpanel"
+            aria-labelledby={tab === "film" ? "search-tab-film" : "search-tab-tv"}
+          >
+            {tab === "film" ? (
+              movieLoading ? (
+                skeletonGrid
+              ) : movies.length > 0 ? (
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6 lg:gap-6">
+                  {movies.map((movie) => (
+                    <MovieCard key={movie.id} movie={movie} />
+                  ))}
+                </div>
+              ) : (
+                <p className="rounded-2xl border border-mv-gold/10 bg-mv-panel/40 px-6 py-10 text-center font-sans text-sm text-mv-cream-muted">
+                  Nessun film corrispondente.
+                </p>
+              )
+            ) : tvLoading ? (
               skeletonGrid
             ) : shows.length > 0 ? (
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6 lg:gap-6">
@@ -94,11 +130,11 @@ export default function SearchPageClient({ query }: { query: string }) {
                 ))}
               </div>
             ) : (
-              <p className="rounded-2xl border border-mv-gold/10 bg-mv-panel/40 px-6 py-8 text-center font-sans text-sm text-mv-cream-muted">
+              <p className="rounded-2xl border border-mv-gold/10 bg-mv-panel/40 px-6 py-10 text-center font-sans text-sm text-mv-cream-muted">
                 Nessuna serie TV corrispondente.
               </p>
             )}
-          </section>
+          </div>
         </div>
       )}
     </div>
