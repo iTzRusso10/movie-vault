@@ -62,11 +62,9 @@ export const HeroContent = ({
     ? new Date((details as TVDetails).first_air_date).getFullYear()
     : new Date((details as MovieDetails).release_date).getFullYear();
 
-  const showStreamButton = isTv
-    ? false
-    : vixsrcPending
-      ? false
-      : vixsrcCatalog?.inCatalog !== false;
+  const showStreamButton = !isTv && !vixsrcPending;
+  const streamLang: "it" | "en" =
+    vixsrcCatalog?.inItalian === true ? "it" : "en";
 
   const headline = isTv
     ? (details as TVDetails).name
@@ -99,6 +97,7 @@ export const HeroContent = ({
           voteAverage={details.vote_average}
           voteCount={details.vote_count}
           showStreamButton={showStreamButton}
+          streamLang={streamLang}
           showWishlist={!isTv}
         />
         <HeroProductionInfo companies={details.production_companies} />

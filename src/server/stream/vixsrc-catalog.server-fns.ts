@@ -67,7 +67,8 @@ async function getVixsrcMovieIdSet(): Promise<Set<number>> {
 }
 
 /**
- * True se `movieId` è nel catalogo VixSRC per `lang` (allineato a StreamEmbed).
+ * `inItalian === true` se il film è nel catalogo VixSRC con `lang=it`.
+ * Se false o null, l’UI usa `lang` di fallback (es. EN) e il bottone “in lingua originale”.
  */
 export const vixsrcMovieInCatalogFn = createServerFn({ method: "POST" })
   .inputValidator(movieIdSchema)
@@ -75,9 +76,9 @@ export const vixsrcMovieInCatalogFn = createServerFn({ method: "POST" })
     const { data } = ctx as { data: z.infer<typeof movieIdSchema> };
     try {
       const ids = await getVixsrcMovieIdSet();
-      return { inCatalog: ids.has(data.movieId) } as const;
+      return { inItalian: ids.has(data.movieId) } as const;
     } catch {
-      return { inCatalog: null } as const;
+      return { inItalian: null } as const;
     }
   });
 

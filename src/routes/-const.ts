@@ -17,6 +17,9 @@ export const vixsrcListUrl = (type: "movie" | "tv" | "episode", lang: string) =>
 /** Codice lingua richiesta al player (`?lang=…`). Dipende da cosa offre il sito. */
 export const VIXSRC_PREFERRED_LANG = "it";
 
+/** Se il titolo non è nel catalogo IT, il player usa questa lingua (tipic. originale/EN). */
+export const VIXSRC_FALLBACK_LANG = "en";
+
 /** Generi TMDB per `/discover/tv` (id diversi dai film). */
 export const TV_GENRES = [
   { id: 10759, label: "Action & Adventure" },

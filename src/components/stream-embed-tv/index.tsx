@@ -2,6 +2,7 @@ import { useLockBodyScroll, useMountEffect } from "crustack/hooks";
 import { FaXmark } from "react-icons/fa6";
 import { Portal } from "../portal";
 import {
+  VIXSRC_FALLBACK_LANG,
   VIXSRC_PREFERRED_LANG,
   VIXSRC_TV_BASE,
 } from "@/routes/-const";
@@ -13,6 +14,7 @@ type Props = {
   seriesTitle: string;
   episodeTitle: string;
   onClose: () => void;
+  langCode?: string;
 };
 
 export default function StreamEmbedTv({
@@ -22,12 +24,14 @@ export default function StreamEmbedTv({
   seriesTitle,
   episodeTitle,
   onClose,
+  langCode = VIXSRC_PREFERRED_LANG,
 }: Props) {
   const { lock } = useLockBodyScroll();
   useMountEffect(lock);
   const streamUrl = new URL(`${VIXSRC_TV_BASE}/${tvId}/${season}/${episode}`);
-  streamUrl.searchParams.set("lang", VIXSRC_PREFERRED_LANG);
+  streamUrl.searchParams.set("lang", langCode);
   const src = streamUrl.toString();
+  const isItalian = langCode === VIXSRC_PREFERRED_LANG;
 
   return (
     <Portal>
@@ -58,7 +62,9 @@ export default function StreamEmbedTv({
               S{season} E{episode} · {episodeTitle}
             </p>
             <p className="font-sans text-[0.65rem] uppercase tracking-wider text-mv-gold/60">
-              Lingua preferita: italiano (se il player la offre)
+              {isItalian
+                ? "Lingua preferita: italiano (se il player la offre)"
+                : `Lingua player: ${langCode === VIXSRC_FALLBACK_LANG ? "inglese / traccia di default" : langCode} (spesso audio originale).`}
             </p>
           </div>
           <div className="relative aspect-video w-full max-h-[min(85dvh,720px)] min-h-[200px] overflow-hidden rounded-lg border border-mv-gold/25 bg-black shadow-gold-glow">

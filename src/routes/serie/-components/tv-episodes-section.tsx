@@ -1,5 +1,9 @@
 import { getTVSeason } from "@/api/tv/tv-season";
 import StreamEmbedTv from "@/components/stream-embed-tv";
+import {
+  VIXSRC_FALLBACK_LANG,
+  VIXSRC_PREFERRED_LANG,
+} from "@/routes/-const";
 import { vixsrcSeasonEpisodesInCatalogFn } from "@/server/stream/vixsrc-catalog.server-fns";
 import type { TVEpisode } from "@/types/tv";
 import { getFilmImage } from "@/utils";
@@ -12,6 +16,7 @@ type PlayTarget = {
   season: number;
   episode: number;
   episodeTitle: string;
+  streamLang: "it" | "en";
 };
 
 export function TvEpisodesSection({
@@ -48,7 +53,7 @@ export function TvEpisodesSection({
 
   const episodes = seasonData?.episodes ?? [];
 
-  const canPlayEpisode = (epNum: number) => {
+  const italianAvailable = (epNum: number) => {
     if (vixEp?.episodes === null) return true;
     return availableSet?.has(epNum) ?? false;
   };
@@ -98,12 +103,13 @@ export function TvEpisodesSection({
               key={ep.id}
               ep={ep}
               catalogPending={vixPending}
-              canPlay={canPlayEpisode(ep.episode_number)}
-              onPlay={() =>
+              italianAvailable={italianAvailable(ep.episode_number)}
+              onPlay={(streamLang) =>
                 setPlay({
                   season: ep.season_number,
                   episode: ep.episode_number,
                   episodeTitle: ep.name,
+                  streamLang,
                 })
               }
             />
@@ -118,6 +124,11 @@ export function TvEpisodesSection({
           episode={play.episode}
           seriesTitle={seriesTitle}
           episodeTitle={play.episodeTitle}
+          langCode={
+            play.streamLang === "it"
+              ? VIXSRC_PREFERRED_LANG
+              : VIXSRC_FALLBACK_LANG
+          }
           onClose={() => setPlay(null)}
         />
       ) : null}
@@ -128,13 +139,13 @@ export function TvEpisodesSection({
 function EpisodeRow({
   ep,
   catalogPending,
-  canPlay,
+  italianAvailable,
   onPlay,
 }: {
   ep: TVEpisode;
   catalogPending: boolean;
-  canPlay: boolean;
-  onPlay: () => void;
+  italianAvailable: boolean;
+  onPlay: (streamLang: "it" | "en") => void;
 }) {
   const air = ep.air_date
     ? new Date(ep.air_date).toLocaleDateString("it-IT", {
@@ -182,19 +193,24 @@ function EpisodeRow({
             <span className="font-sans text-[0.65rem] uppercase tracking-wider text-mv-cream-muted/80">
               Verifica catalogo…
             </span>
-          ) : canPlay ? (
+          ) : italianAvailable ? (
             <button
               type="button"
-              onClick={onPlay}
+              onClick={() => onPlay("it")}
               className="inline-flex items-center gap-2 rounded-lg border border-mv-ember/40 bg-mv-ember/15 px-4 py-2 font-sans text-xs font-semibold text-mv-cream transition-all hover:border-mv-ember-glow/55 hover:bg-mv-ember/25 sm:text-sm"
             >
               <FaPlay className="shrink-0 text-mv-gold-bright" size={12} />
               Riproduci
             </button>
           ) : (
-            <span className="font-sans text-[0.65rem] uppercase tracking-wider text-mv-cream-muted/80">
-              Non disponibile su VixSRC (IT)
-            </span>
+            <button
+              type="button"
+              onClick={() => onPlay("en")}
+              className="inline-flex items-center gap-2 rounded-lg border border-mv-gold/35 bg-mv-gold/10 px-4 py-2 font-sans text-xs font-semibold text-mv-cream transition-all hover:border-mv-gold/50 hover:bg-mv-gold/15 sm:text-sm"
+            >
+              <FaPlay className="shrink-0 text-mv-gold-bright" size={12} />
+              Riproduci in lingua originale
+            </button>
           )}
         </div>
       </div>

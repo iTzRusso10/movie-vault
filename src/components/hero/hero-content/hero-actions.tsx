@@ -2,6 +2,10 @@ import { FaPlay, FaStar } from "react-icons/fa6";
 import { useState } from "react";
 import StreamEmbed from "@/components/stream-embed";
 import { WishlistButton } from "@/components/wishlist/wishlist-button";
+import {
+  VIXSRC_FALLBACK_LANG,
+  VIXSRC_PREFERRED_LANG,
+} from "@/routes/-const";
 import { MovieVideo } from "@/types/movie";
 import { MovieRatingStars } from "@/components/movie-rating-stars";
 import YoutubeEmbed from "../../youtube-embed";
@@ -14,8 +18,9 @@ interface HeroActionsProps {
   movieTrailer?: MovieVideo;
   voteAverage: number;
   voteCount: number;
-  /** False se il film non è nel catalogo VixSRC (`lang=it`). */
   showStreamButton?: boolean;
+  /** Lingua richiesta al player VixSRC per i film. */
+  streamLang?: "it" | "en";
   showWishlist?: boolean;
 }
 
@@ -28,6 +33,7 @@ export const HeroActions = ({
   voteAverage,
   voteCount,
   showStreamButton = true,
+  streamLang = "it",
   showWishlist = true,
 }: HeroActionsProps) => {
   const [trailerOpen, setTrailerOpen] = useState(false);
@@ -56,7 +62,9 @@ export const HeroActions = ({
           className="inline-flex items-center gap-2 rounded-lg border border-mv-ember/40 bg-mv-ember/15 px-6 py-2.5 font-sans text-sm font-semibold text-mv-cream transition-all hover:border-mv-ember-glow/55 hover:bg-mv-ember/25"
         >
           <FaPlay className="shrink-0 text-mv-gold-bright" size={14} />
-          Riproduci
+          {streamLang === "it"
+            ? "Riproduci"
+            : "Riproduci in lingua originale"}
         </button>
       ) : null}
       {!!movieTrailer && (
@@ -87,6 +95,9 @@ export const HeroActions = ({
         <StreamEmbed
           movieId={movieId}
           movieTitle={movieTitle}
+          langCode={
+            streamLang === "it" ? VIXSRC_PREFERRED_LANG : VIXSRC_FALLBACK_LANG
+          }
           onClose={() => setStreamOpen(false)}
         />
       ) : null}
