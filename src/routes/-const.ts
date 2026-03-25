@@ -4,6 +4,9 @@ export const IMAGE_URL_AVATAR = "https://image.tmdb.org/t/p/w45";
 /** Base URL player esterno (id = TMDB movie id). */
 export const VIXSRC_MOVIE_BASE = "https://vixsrc.to/movie";
 
+/** Player serie: TMDB show id + stagione + episodio. */
+export const VIXSRC_TV_BASE = "https://vixsrc.to/tv";
+
 /**
  * Catalogo film TMDB per lingua (`type`: movie | tv | episode). Serve trailing `/` (evita 301 → http).
  * @see https://vixsrc.to/api/list/movie/?lang=it
@@ -13,6 +16,20 @@ export const vixsrcListUrl = (type: "movie" | "tv" | "episode", lang: string) =>
 
 /** Codice lingua richiesta al player (`?lang=…`). Dipende da cosa offre il sito. */
 export const VIXSRC_PREFERRED_LANG = "it";
+
+/** Generi TMDB per `/discover/tv` (id diversi dai film). */
+export const TV_GENRES = [
+  { id: 10759, label: "Action & Adventure" },
+  { id: 16, label: "Animazione" },
+  { id: 35, label: "Commedia" },
+  { id: 80, label: "Crime" },
+  { id: 99, label: "Documentario" },
+  { id: 18, label: "Dramma" },
+  { id: 10751, label: "Famiglia" },
+  { id: 9648, label: "Mistero" },
+  { id: 10765, label: "Sci-Fi & Fantasy" },
+  { id: 37, label: "Western" },
+];
 
 export const MOVIE_GENRES = [
   { id: 27, label: "Horror" },

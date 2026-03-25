@@ -63,7 +63,7 @@ export const Footer = () => {
 
         <p className="mt-8 text-center font-sans text-xs text-mv-cream-muted/70">
           © {new Date().getFullYear()}{" "}
-          <span className="text-mv-cream/90">MovieVault</span>. Dati film da{" "}
+          <span className="text-mv-cream/90">MovieVault</span>. Dati film e serie da{" "}
           <a
             href="https://www.themoviedb.org/"
             className="underline decoration-mv-gold/40 underline-offset-2 transition-colors hover:text-mv-gold-bright"

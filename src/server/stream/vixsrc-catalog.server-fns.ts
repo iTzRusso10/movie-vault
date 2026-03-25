@@ -80,3 +80,157 @@ export const vixsrcMovieInCatalogFn = createServerFn({ method: "POST" })
       return { inCatalog: null } as const;
     }
   });
+
+/* ——— Serie TV (catalogo show) ——— */
+
+const tvIdSchema = z.object({
+  tvId: z.number().int().positive(),
+});
+
+let catalogTvCache: CatalogCache | null = null;
+
+async function getVixsrcTvIdSet(): Promise<Set<number>> {
+  const now = Date.now();
+  if (catalogTvCache && now - catalogTvCache.fetchedAt < CATALOG_TTL_MS) {
+    return catalogTvCache.ids;
+  }
+
+  const ctrl = new AbortController();
+  const timeoutId = setTimeout(() => ctrl.abort(), 60_000);
+  let res: Response;
+  try {
+    res = await fetch(vixsrcListUrl("tv", VIXSRC_PREFERRED_LANG), {
+      redirect: "follow",
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "MovieVault/1.0 (vixsrc tv catalog)",
+      },
+      signal: ctrl.signal,
+    });
+  } finally {
+    clearTimeout(timeoutId);
+  }
+
+  if (!res.ok) {
+    throw new Error(`vixsrc tv list ${res.status}`);
+  }
+
+  const rows = (await res.json()) as unknown;
+  if (!Array.isArray(rows)) {
+    throw new Error("vixsrc tv list: risposta non è un array");
+  }
+
+  const ids = new Set<number>();
+  for (const row of rows) {
+    if (
+      row &&
+      typeof row === "object" &&
+      "tmdb_id" in row &&
+      typeof (row as { tmdb_id: unknown }).tmdb_id === "number"
+    ) {
+      ids.add((row as { tmdb_id: number }).tmdb_id);
+    }
+  }
+
+  catalogTvCache = { ids, fetchedAt: now };
+  return ids;
+}
+
+export const vixsrcTvInCatalogFn = createServerFn({ method: "POST" })
+  .inputValidator(tvIdSchema)
+  .handler(async (ctx) => {
+    const { data } = ctx as { data: z.infer<typeof tvIdSchema> };
+    try {
+      const ids = await getVixsrcTvIdSet();
+      return { inCatalog: ids.has(data.tvId) } as const;
+    } catch {
+      return { inCatalog: null } as const;
+    }
+  });
+
+/* ——— Episodi (indice per show|stagione) ——— */
+
+type EpisodeIndexCache = {
+  byShowSeason: Map<string, Set<number>>;
+  fetchedAt: number;
+};
+
+let episodeIndexCache: EpisodeIndexCache | null = null;
+
+async function getVixsrcEpisodeIndex(): Promise<Map<string, Set<number>>> {
+  const now = Date.now();
+  if (
+    episodeIndexCache &&
+    now - episodeIndexCache.fetchedAt < CATALOG_TTL_MS
+  ) {
+    return episodeIndexCache.byShowSeason;
+  }
+
+  const ctrl = new AbortController();
+  const timeoutId = setTimeout(() => ctrl.abort(), 120_000);
+  let res: Response;
+  try {
+    res = await fetch(vixsrcListUrl("episode", VIXSRC_PREFERRED_LANG), {
+      redirect: "follow",
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "MovieVault/1.0 (vixsrc episode catalog)",
+      },
+      signal: ctrl.signal,
+    });
+  } finally {
+    clearTimeout(timeoutId);
+  }
+
+  if (!res.ok) {
+    throw new Error(`vixsrc episode list ${res.status}`);
+  }
+
+  const rows = (await res.json()) as unknown;
+  if (!Array.isArray(rows)) {
+    throw new Error("vixsrc episode list: risposta non è un array");
+  }
+
+  const byShowSeason = new Map<string, Set<number>>();
+  for (const row of rows) {
+    if (!row || typeof row !== "object") continue;
+    const r = row as { tmdb_id?: unknown; s?: unknown; e?: unknown };
+    if (
+      typeof r.tmdb_id === "number" &&
+      typeof r.s === "number" &&
+      typeof r.e === "number"
+    ) {
+      const k = `${r.tmdb_id}|${r.s}`;
+      if (!byShowSeason.has(k)) {
+        byShowSeason.set(k, new Set());
+      }
+      byShowSeason.get(k)!.add(r.e);
+    }
+  }
+
+  episodeIndexCache = { byShowSeason, fetchedAt: now };
+  return byShowSeason;
+}
+
+const tvSeasonSchema = z.object({
+  tvId: z.number().int().positive(),
+  season: z.number().int().min(0),
+});
+
+/** Numeri episodio presenti su VixSRC per TMDB show + stagione. */
+export const vixsrcSeasonEpisodesInCatalogFn = createServerFn({
+  method: "POST",
+})
+  .inputValidator(tvSeasonSchema)
+  .handler(async (ctx) => {
+    const { data } = ctx as { data: z.infer<typeof tvSeasonSchema> };
+    try {
+      const idx = await getVixsrcEpisodeIndex();
+      const set = idx.get(`${data.tvId}|${data.season}`) ?? new Set<number>();
+      return {
+        episodes: [...set].sort((a, b) => a - b),
+      } as const;
+    } catch {
+      return { episodes: null } as const;
+    }
+  });

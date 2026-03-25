@@ -7,6 +7,7 @@ import { MovieRatingStars } from "@/components/movie-rating-stars";
 import YoutubeEmbed from "../../youtube-embed";
 
 interface HeroActionsProps {
+  kind?: "movie" | "tv";
   movieId: number;
   movieTitle: string;
   posterPath: string | null;
@@ -15,9 +16,11 @@ interface HeroActionsProps {
   voteCount: number;
   /** False se il film non è nel catalogo VixSRC (`lang=it`). */
   showStreamButton?: boolean;
+  showWishlist?: boolean;
 }
 
 export const HeroActions = ({
+  kind = "movie",
   movieId,
   movieTitle,
   posterPath,
@@ -25,6 +28,7 @@ export const HeroActions = ({
   voteAverage,
   voteCount,
   showStreamButton = true,
+  showWishlist = true,
 }: HeroActionsProps) => {
   const [trailerOpen, setTrailerOpen] = useState(false);
   const [streamOpen, setStreamOpen] = useState(false);
@@ -34,12 +38,14 @@ export const HeroActions = ({
       <div className="flex rounded-full border border-mv-gold/25 bg-mv-panel/80 p-3 md:hidden">
         <FaStar className="text-mv-gold-bright" size={22} />
       </div>
-      <WishlistButton
-        variant="hero"
-        movieId={movieId}
-        title={movieTitle}
-        posterPath={posterPath}
-      />
+      {showWishlist && kind === "movie" ? (
+        <WishlistButton
+          variant="hero"
+          movieId={movieId}
+          title={movieTitle}
+          posterPath={posterPath}
+        />
+      ) : null}
       {showStreamButton ? (
         <button
           type="button"

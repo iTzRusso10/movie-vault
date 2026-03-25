@@ -66,13 +66,12 @@ export default function Search() {
               >
                 Film
               </Link>
-              <button
-                type="button"
-                className="cursor-not-allowed font-sans text-sm text-mv-cream-muted/45"
-                disabled
+              <Link
+                to="/serie"
+                className="font-sans text-sm font-medium text-mv-cream/90 transition-colors hover:text-mv-gold-bright"
               >
                 Serie TV
-              </button>
+              </Link>
               <Link
                 to="/lista-desideri"
                 className="font-sans text-sm font-medium text-mv-cream/90 transition-colors hover:text-mv-gold-bright"
@@ -122,9 +121,12 @@ export default function Search() {
                 className="h-3 w-px bg-mv-gold/20"
                 aria-hidden
               />
-              <span className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-mv-cream-muted/40">
+              <Link
+                to="/serie"
+                className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-mv-cream/90 transition-colors hover:text-mv-gold-bright"
+              >
                 Serie TV
-              </span>
+              </Link>
             </div>
           </div>
         </div>
@@ -137,7 +139,7 @@ export default function Search() {
             />
             <input
               ref={inputRef}
-              placeholder="Cerca un film…"
+              placeholder="Cerca film o serie TV…"
               type="search"
               className="h-11 w-full rounded-lg border border-mv-gold/20 bg-mv-void/92 py-2 pl-10 pr-3 font-sans text-sm text-mv-cream outline-none transition-all placeholder:text-mv-cream-muted/55 focus:border-mv-gold/40"
               value={search}
