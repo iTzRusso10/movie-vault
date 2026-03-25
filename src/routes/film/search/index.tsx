@@ -1,9 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
 import SearchPageClient from "./-page-client";
 import SearchFilmPagelayout from "./-layout";
 
@@ -17,14 +12,11 @@ export const Route = createFileRoute("/film/search/")({
 });
 
 function SearchFilmPage() {
-  const queryClient = new QueryClient();
   const { query } = Route.useSearch();
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <SearchFilmPagelayout>
-        <SearchPageClient query={query} />
-      </SearchFilmPagelayout>
-    </HydrationBoundary>
+    <SearchFilmPagelayout>
+      <SearchPageClient query={query} />
+    </SearchFilmPagelayout>
   );
 }
