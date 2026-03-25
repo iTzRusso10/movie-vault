@@ -1,4 +1,5 @@
-import { getTrendMovie } from "@/api/movie/trend-movie";
+import { getHomeMoviesMerged } from "@/api/home-feed";
+import { HomeTmdbHighlights } from "../../components/home-tmdb-highlights";
 import { MoviePerGenresSection } from "../../components/movie-per-genre-section";
 import { Hero } from "../../components/hero";
 import { getWatchProviders } from "@/api/movie/watch-providers";
@@ -13,41 +14,48 @@ const HERO_PREFETCH_STALE = 1000 * 60 * 5;
 export const Route = createFileRoute("/(home)/")({
   component: Home,
   loader: async ({ context }) => {
-    const trendMovie = await getTrendMovie();
-    const watchProviders = await getWatchProviders(trendMovie.id);
+    const mergedMovies = await getHomeMoviesMerged();
+    const featuredMovie = mergedMovies[0];
+    if (!featuredMovie) {
+      throw new Error("Impossibile caricare film in evidenza dalla TMDB.");
+    }
+    const watchProviders = await getWatchProviders(featuredMovie.id);
     const { queryClient } = context as { queryClient: QueryClient };
+
+    queryClient.setQueryData(["home-movies-merged"], mergedMovies);
 
     await Promise.all([
       queryClient.ensureQueryData({
-        queryKey: ["movie", trendMovie.id],
-        queryFn: () => getMovieById(trendMovie.id),
+        queryKey: ["movie", featuredMovie.id],
+        queryFn: () => getMovieById(featuredMovie.id),
         staleTime: HERO_PREFETCH_STALE,
       }),
       queryClient.ensureQueryData({
-        queryKey: ["movie-videos", trendMovie.id],
-        queryFn: () => getMovieVideos(trendMovie.id),
+        queryKey: ["movie-videos", featuredMovie.id],
+        queryFn: () => getMovieVideos(featuredMovie.id),
         staleTime: HERO_PREFETCH_STALE,
       }),
       queryClient.ensureQueryData({
-        queryKey: ["movie-images", trendMovie.id],
-        queryFn: () => getMovieImages(trendMovie.id),
+        queryKey: ["movie-images", featuredMovie.id],
+        queryFn: () => getMovieImages(featuredMovie.id),
         staleTime: HERO_PREFETCH_STALE,
       }),
     ]);
 
     return {
-      trendMovie,
+      featuredMovie,
       watchProviders,
     };
   },
 });
 
 function Home() {
-  const { trendMovie, watchProviders } = Route.useLoaderData();
+  const { featuredMovie, watchProviders } = Route.useLoaderData();
 
   return (
     <div className="flex flex-col">
-      <Hero movie={trendMovie} watchProviders={watchProviders.results} />
+      <Hero movie={featuredMovie} watchProviders={watchProviders.results} />
+      <HomeTmdbHighlights heroMovieId={featuredMovie.id} />
       <MoviePerGenresSection />
     </div>
   );

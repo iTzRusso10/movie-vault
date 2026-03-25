@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getTVByGenre } from "@/api/tv/tv-per-genres";
+import { getTVByFilters } from "@/api/tv/tv-per-genres";
 import { TvCarousel } from "./tv-carousel";
 import { TV_GENRES } from "../routes/-const";
 import { Link } from "@tanstack/react-router";
@@ -32,7 +32,9 @@ export const TvPerGenresSection = () => {
       const slice = TV_GENRES.slice(start, start + GENRES_PAGE_SIZE);
       const rows: TVsByGenre[] = await Promise.all(
         slice.map(async (genre) => {
-          const { results } = await getTVByGenre(genre.id, 1);
+          const indexInAll = TV_GENRES.findIndex((g) => g.id === genre.id);
+          const sort = indexInAll % 2 === 0 ? "popularity" : "rated";
+          const { results } = await getTVByFilters(genre.id, 1, { sort });
           return {
             id: genre.id,
             genreLabel: genre.label,

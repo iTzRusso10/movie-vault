@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getMovieByGenre } from "@/api/movie/movie-per-genres";
+import { getMovieByFilters } from "@/api/movie/movie-per-genres";
 import { MoviesCarousel } from "./movie-carousel";
 import { MOVIE_GENRES } from "../routes/-const";
 import { Link } from "@tanstack/react-router";
@@ -34,13 +34,15 @@ export const MoviePerGenresSection = () => {
       const slice = MOVIE_GENRES.slice(start, start + GENRES_PAGE_SIZE);
       const rows: MoviesByGenre[] = await Promise.all(
         slice.map(async (genre) => {
-          const { results } = await getMovieByGenre(genre.id, 1);
+          const indexInAll = MOVIE_GENRES.findIndex((g) => g.id === genre.id);
+          const sort = indexInAll % 2 === 0 ? "popularity" : "rated";
+          const { results } = await getMovieByFilters(genre.id, 1, { sort });
           return {
             id: genre.id,
             genreLabel: genre.label,
             movies: results,
           };
-        })
+        }),
       );
       return rows;
     },
@@ -129,7 +131,7 @@ export const SectionTitle = ({ title, id }: { title: string; id: number }) => {
     <Link
       to={`/film/genres/$genres_and_id`}
       params={{ genres_and_id: `${id}-${title.toLowerCase()}` }}
-      search={{ year: undefined, sort: undefined }}
+      search={{ yearMin: undefined, yearMax: undefined, sort: undefined }}
       className="group inline-flex flex-col gap-1 rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-mv-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-mv-void"
     >
       <span className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-mv-gold/70 transition-colors group-hover:text-mv-gold-bright">
