@@ -1,9 +1,5 @@
 import { getTVSeason } from "@/api/tv/tv-season";
 import StreamEmbedTv from "@/components/stream-embed-tv";
-import {
-  VIXSRC_FALLBACK_LANG,
-  VIXSRC_PREFERRED_LANG,
-} from "@/routes/-const";
 import { vixsrcSeasonEpisodesInCatalogFn } from "@/server/stream/vixsrc-catalog.server-fns";
 import type { TVEpisode } from "@/types/tv";
 import { getFilmImage } from "@/utils";
@@ -53,11 +49,6 @@ export function TvEpisodesSection({
 
   const episodes = seasonData?.episodes ?? [];
 
-  const italianAvailable = (epNum: number) => {
-    if (vixEp?.episodes === null) return true;
-    return availableSet?.has(epNum) ?? false;
-  };
-
   if (numberOfSeasons < 1) {
     return (
       <p className="font-sans text-sm text-mv-cream-muted">
@@ -103,7 +94,6 @@ export function TvEpisodesSection({
               key={ep.id}
               ep={ep}
               catalogPending={vixPending}
-              italianAvailable={italianAvailable(ep.episode_number)}
               onPlay={(streamLang) =>
                 setPlay({
                   season: ep.season_number,
@@ -124,10 +114,11 @@ export function TvEpisodesSection({
           episode={play.episode}
           seriesTitle={seriesTitle}
           episodeTitle={play.episodeTitle}
-          langCode={
-            play.streamLang === "it"
-              ? VIXSRC_PREFERRED_LANG
-              : VIXSRC_FALLBACK_LANG
+          preferItalian={play.streamLang === "it"}
+          episodeInItalianCatalog={
+            vixEp?.episodes === null
+              ? null
+              : Boolean(availableSet?.has(play.episode))
           }
           onClose={() => setPlay(null)}
         />
@@ -139,12 +130,10 @@ export function TvEpisodesSection({
 function EpisodeRow({
   ep,
   catalogPending,
-  italianAvailable,
   onPlay,
 }: {
   ep: TVEpisode;
   catalogPending: boolean;
-  italianAvailable: boolean;
   onPlay: (streamLang: "it" | "en") => void;
 }) {
   const air = ep.air_date
@@ -193,7 +182,7 @@ function EpisodeRow({
             <span className="font-sans text-[0.65rem] uppercase tracking-wider text-mv-cream-muted/80">
               Verifica catalogo…
             </span>
-          ) : italianAvailable ? (
+          ) : (
             <button
               type="button"
               onClick={() => onPlay("it")}
@@ -201,15 +190,6 @@ function EpisodeRow({
             >
               <FaPlay className="shrink-0 text-mv-gold-bright" size={12} />
               Riproduci
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => onPlay("en")}
-              className="inline-flex items-center gap-2 rounded-lg border border-mv-gold/35 bg-mv-gold/10 px-4 py-2 font-sans text-xs font-semibold text-mv-cream transition-all hover:border-mv-gold/50 hover:bg-mv-gold/15 sm:text-sm"
-            >
-              <FaPlay className="shrink-0 text-mv-gold-bright" size={12} />
-              Riproduci in lingua originale
             </button>
           )}
         </div>

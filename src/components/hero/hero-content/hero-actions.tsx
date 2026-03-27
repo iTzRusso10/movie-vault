@@ -2,10 +2,7 @@ import { FaPlay, FaStar } from "react-icons/fa6";
 import { useState } from "react";
 import StreamEmbed from "@/components/stream-embed";
 import { WishlistButton } from "@/components/wishlist/wishlist-button";
-import {
-  VIXSRC_FALLBACK_LANG,
-  VIXSRC_PREFERRED_LANG,
-} from "@/routes/-const";
+import type { VixsrcItalianCatalog } from "@/lib/stream-embed-candidates";
 import { MovieVideo } from "@/types/movie";
 import { MovieRatingStars } from "@/components/movie-rating-stars";
 import YoutubeEmbed from "../../youtube-embed";
@@ -21,6 +18,8 @@ interface HeroActionsProps {
   showStreamButton?: boolean;
   /** Lingua richiesta al player VixSRC per i film. */
   streamLang?: "it" | "en";
+  /** Catalogo VixSRC IT per il film (solo `movie`). */
+  vixsrcInItalian?: VixsrcItalianCatalog;
   showWishlist?: boolean;
 }
 
@@ -34,6 +33,7 @@ export const HeroActions = ({
   voteCount,
   showStreamButton = true,
   streamLang = "it",
+  vixsrcInItalian = null,
   showWishlist = true,
 }: HeroActionsProps) => {
   const [trailerOpen, setTrailerOpen] = useState(false);
@@ -95,9 +95,8 @@ export const HeroActions = ({
         <StreamEmbed
           movieId={movieId}
           movieTitle={movieTitle}
-          langCode={
-            streamLang === "it" ? VIXSRC_PREFERRED_LANG : VIXSRC_FALLBACK_LANG
-          }
+          preferItalian={streamLang === "it"}
+          vixsrcInItalian={vixsrcInItalian}
           onClose={() => setStreamOpen(false)}
         />
       ) : null}

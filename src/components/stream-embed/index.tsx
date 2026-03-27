@@ -1,32 +1,59 @@
 import { useLockBodyScroll, useMountEffect } from "crustack/hooks";
-import { FaXmark } from "react-icons/fa6";
+import { FaForward, FaXmark } from "react-icons/fa6";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Portal } from "../portal";
+import { StreamEmbedPlayer, type PlayerState } from "./stream-embed-player";
 import {
-  VIXSRC_FALLBACK_LANG,
-  VIXSRC_MOVIE_BASE,
-  VIXSRC_PREFERRED_LANG,
-} from "@/routes/-const";
+  buildMovieStreamCandidates,
+  type VixsrcItalianCatalog,
+} from "@/lib/stream-embed-candidates";
 
 type Props = {
   movieId: number;
   movieTitle: string;
   onClose: () => void;
-  /** `it` = catalogo italiano; altrimenti traccia di fallback (es. EN / originale). */
-  langCode?: string;
+  preferItalian: boolean;
+  vixsrcInItalian: VixsrcItalianCatalog;
 };
+
+function buildHint(preferItalian: boolean, state: PlayerState | null): string {
+  if (!preferItalian) return "Riproduzione in lingua originale / inglese.";
+  if (!state) return "Ricerca della migliore sorgente in italiano…";
+  if (state.failed) return "Nessun provider disponibile — riprova più tardi.";
+  if (state.loaded)
+    return `In riproduzione da ${state.label} (${state.index + 1}/${state.total}).`;
+  return `Provo ${state.label} (${state.index + 1}/${state.total})…`;
+}
 
 export default function StreamEmbed({
   movieId,
   movieTitle,
   onClose,
-  langCode = VIXSRC_PREFERRED_LANG,
+  preferItalian,
+  vixsrcInItalian,
 }: Props) {
   const { lock } = useLockBodyScroll();
   useMountEffect(lock);
-  const streamUrl = new URL(`${VIXSRC_MOVIE_BASE}/${movieId}`);
-  streamUrl.searchParams.set("lang", langCode);
-  const src = streamUrl.toString();
-  const isItalian = langCode === VIXSRC_PREFERRED_LANG;
+
+  const candidates = useMemo(
+    () =>
+      buildMovieStreamCandidates({
+        movieId,
+        preferItalian,
+        vixsrcInItalian,
+      }),
+    [movieId, preferItalian, vixsrcInItalian],
+  );
+
+  const [playerState, setPlayerState] = useState<PlayerState | null>(null);
+  const advanceRef = useRef<(() => void) | null>(null);
+
+  const handleStateChange = useCallback((s: PlayerState) => {
+    setPlayerState(s);
+  }, []);
+
+  const hint = buildHint(preferItalian, playerState);
+  const showNextBtn = playerState?.hasNext && !playerState.failed;
 
   return (
     <Portal>
@@ -49,25 +76,32 @@ export default function StreamEmbed({
           className="relative z-[201] flex w-full max-w-[min(96vw,1200px)] flex-col gap-2 shadow-marquee"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="space-y-0.5 px-1">
-            <p className="truncate font-sans text-xs text-mv-cream-muted md:text-sm">
-              {movieTitle}
-            </p>
-            <p className="font-sans text-[0.65rem] uppercase tracking-wider text-mv-gold/60">
-              {isItalian
-                ? "Lingua preferita: italiano (se il player la offre)"
-                : `Lingua player: ${langCode === VIXSRC_FALLBACK_LANG ? "inglese / traccia di default" : langCode} (spesso audio originale).`}
-            </p>
+          <div className="flex items-end justify-between gap-3 px-1">
+            <div className="min-w-0 space-y-0.5">
+              <p className="truncate font-sans text-xs text-mv-cream-muted md:text-sm">
+                {movieTitle}
+              </p>
+              <p className="font-sans text-[0.65rem] uppercase tracking-wider text-mv-gold/60">
+                {hint}
+              </p>
+            </div>
+            {showNextBtn ? (
+              <button
+                type="button"
+                onClick={() => advanceRef.current?.()}
+                className="flex shrink-0 items-center gap-1.5 rounded-full border border-mv-gold/30 bg-mv-deep/80 px-3 py-1 font-sans text-[0.6rem] uppercase tracking-wider text-mv-cream-muted transition-colors hover:border-mv-gold/60 hover:text-mv-gold-bright"
+              >
+                Prova prossimo
+                <FaForward size={9} />
+              </button>
+            ) : null}
           </div>
           <div className="relative aspect-video w-full max-h-[min(85dvh,720px)] min-h-[200px] overflow-hidden rounded-lg border border-mv-gold/25 bg-black shadow-gold-glow">
-            <iframe
-              title={`Riproduzione: ${movieTitle}`}
-              className="absolute inset-0 h-full w-full"
-              src={src}
-              allowFullScreen
-              allow="fullscreen; autoplay; encrypted-media; picture-in-picture"
-              loading="eager"
-              referrerPolicy="no-referrer-when-downgrade"
+            <StreamEmbedPlayer
+              candidates={candidates}
+              iframeTitle={`Riproduzione: ${movieTitle}`}
+              onStateChange={handleStateChange}
+              advanceRef={advanceRef}
             />
           </div>
         </div>

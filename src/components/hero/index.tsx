@@ -16,7 +16,7 @@ export const Hero = ({
 }: HeroProps) => {
   return (
     <section className="mv-hero-bleed relative isolate w-full min-h-[70vh] md:min-h-[85vh]">
-      <HeroImage movie={movie} />
+      <HeroImage movie={movie} kind={kind} />
       <HeroContent
         kind={kind}
         movie={movie}

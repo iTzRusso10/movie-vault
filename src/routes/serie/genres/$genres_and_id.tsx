@@ -2,6 +2,7 @@ import {
   getTVByFilters,
   type TVDiscoverSort,
 } from "@/api/tv/tv-per-genres";
+import { useItalianTvCatalog } from "@/api/use-italian-catalog";
 import { Hero } from "@/components/hero";
 import {
   dehydrate,
@@ -71,6 +72,7 @@ export const Route = createFileRoute("/serie/genres/$genres_and_id")({
       yearMin,
       yearMax,
       sort: parseSortRated(search) ? ("rated" as const) : undefined,
+      ita: search.ita === true || search.ita === "true" ? (true as const) : undefined,
     };
   },
   loaderDeps: ({ search: { yearMin, yearMax, sort } }) => ({
@@ -111,7 +113,7 @@ function TvPerGenresPage() {
   const navigate = useNavigate();
   const params = Route.useParams();
   const { data, genreLabel, genreId, sort } = Route.useLoaderData();
-  const { yearMin: sMin, yearMax: sMax, sort: searchSort } = Route.useSearch();
+  const { yearMin: sMin, yearMax: sMax, sort: searchSort, ita: searchIta } = Route.useSearch();
 
   const yMaxBound = useMemo(() => releaseYearMax(), []);
 
@@ -121,12 +123,19 @@ function TvPerGenresPage() {
   const [draftMin, setDraftMin] = useState(displayMin);
   const [draftMax, setDraftMax] = useState(displayMax);
 
+  const italianOnly = searchIta === true;
+
+  const { italianIds, isLoading: italianCatalogLoading } =
+    useItalianTvCatalog(italianOnly);
+
   useEffect(() => {
     setDraftMin(displayMin);
     setDraftMax(displayMax);
   }, [displayMin, displayMax]);
 
-  const heroShow = data.results[0];
+  const heroShow = italianOnly && italianIds
+    ? data.results.find((s) => italianIds.has(s.id)) ?? data.results[0]
+    : data.results[0];
 
   const navigateYearSearch = (
     yearMin: number | undefined,
@@ -139,6 +148,7 @@ function TvPerGenresPage() {
         yearMin,
         yearMax,
         sort: searchSort,
+        ita: searchIta,
       },
       replace: true,
       resetScroll: false,
@@ -271,6 +281,7 @@ function TvPerGenresPage() {
                         yearMin: sMin,
                         yearMax: sMax,
                         sort: v === "rated" ? "rated" : undefined,
+                        ita: searchIta,
                       },
                       replace: true,
                       resetScroll: false,
@@ -280,6 +291,35 @@ function TvPerGenresPage() {
                   <option value="">Popolarità (TMDB)</option>
                   <option value="rated">Più apprezzati</option>
                 </select>
+              </label>
+              <label className="flex cursor-pointer items-center gap-2.5 rounded-lg border border-mv-gold/20 bg-mv-panel/50 px-3 py-2.5 transition-colors select-none hover:border-mv-gold/40 sm:self-end">
+                <input
+                  type="checkbox"
+                  checked={italianOnly}
+                  onChange={(e) => {
+                    navigate({
+                      to: "/serie/genres/$genres_and_id",
+                      params,
+                      search: {
+                        yearMin: sMin,
+                        yearMax: sMax,
+                        sort: searchSort,
+                        ita: e.target.checked ? true : undefined,
+                      },
+                      replace: true,
+                      resetScroll: false,
+                    });
+                  }}
+                  className="h-4 w-4 shrink-0 cursor-pointer appearance-none rounded border border-mv-gold/40 bg-mv-ink transition-colors checked:border-mv-gold checked:bg-mv-gold"
+                />
+                <span className="font-sans text-[0.65rem] font-semibold uppercase tracking-wider text-mv-cream-muted">
+                  Solo con italiano nello stream
+                </span>
+                {italianOnly && italianCatalogLoading ? (
+                  <span className="font-sans text-[0.6rem] text-mv-gold/60">
+                    …
+                  </span>
+                ) : null}
               </label>
             </div>
             {sort === "rated" ? (
@@ -301,6 +341,8 @@ function TvPerGenresPage() {
             yearMin={sMin}
             yearMax={sMax}
             sort={sort}
+            italianIds={italianOnly ? italianIds : null}
+            heroId={heroShow?.id}
           />
         </div>
       </div>

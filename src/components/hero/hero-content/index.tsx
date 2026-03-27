@@ -16,6 +16,7 @@ import { HeroOverview } from "./hero-overview";
 import { HeroActions } from "./hero-actions";
 import { HeroProductionInfo } from "./hero-production-info";
 import { HeroWatchProviders } from "./hero-watch-providers";
+import { pickYoutubeTrailer } from "../pick-youtube-trailer";
 
 const HERO_QUERY_STALE = 1000 * 60 * 5;
 
@@ -56,15 +57,14 @@ export const HeroContent = ({
 
   if (!details || !videos || !images) return;
 
-  const trailer = videos.results.find((v) => v.type === "Trailer");
+  const trailer = pickYoutubeTrailer(videos.results);
 
   const releaseYear = isTv
     ? new Date((details as TVDetails).first_air_date).getFullYear()
     : new Date((details as MovieDetails).release_date).getFullYear();
 
   const showStreamButton = !isTv && !vixsrcPending;
-  const streamLang: "it" | "en" =
-    vixsrcCatalog?.inItalian === true ? "it" : "en";
+  const streamLang: "it" | "en" = "it";
 
   const headline = isTv
     ? (details as TVDetails).name
@@ -98,6 +98,9 @@ export const HeroContent = ({
           voteCount={details.vote_count}
           showStreamButton={showStreamButton}
           streamLang={streamLang}
+          vixsrcInItalian={
+            isTv ? null : (vixsrcCatalog?.inItalian ?? null)
+          }
           showWishlist={!isTv}
         />
         <HeroProductionInfo companies={details.production_companies} />

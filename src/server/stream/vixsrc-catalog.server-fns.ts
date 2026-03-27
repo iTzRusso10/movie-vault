@@ -82,6 +82,21 @@ export const vixsrcMovieInCatalogFn = createServerFn({ method: "POST" })
     }
   });
 
+/**
+ * Restituisce TUTTI gli ID TMDB film presenti nel catalogo VixSRC italiano.
+ * Il set è cachato server-side (15 min TTL); il client dovrebbe cacharlo a lungo.
+ */
+export const vixsrcAllMovieIdsFn = createServerFn({ method: "GET" }).handler(
+  async () => {
+    try {
+      const ids = await getVixsrcMovieIdSet();
+      return { ids: [...ids] } as const;
+    } catch {
+      return { ids: null } as const;
+    }
+  },
+);
+
 /* ——— Serie TV (catalogo show) ——— */
 
 const tvIdSchema = z.object({
@@ -148,6 +163,20 @@ export const vixsrcTvInCatalogFn = createServerFn({ method: "POST" })
       return { inCatalog: null } as const;
     }
   });
+
+/**
+ * Restituisce TUTTI gli ID TMDB serie presenti nel catalogo VixSRC italiano.
+ */
+export const vixsrcAllTvIdsFn = createServerFn({ method: "GET" }).handler(
+  async () => {
+    try {
+      const ids = await getVixsrcTvIdSet();
+      return { ids: [...ids] } as const;
+    } catch {
+      return { ids: null } as const;
+    }
+  },
+);
 
 /* ——— Episodi (indice per show|stagione) ——— */
 
