@@ -13,6 +13,7 @@ export const HeroImage = ({ movie, kind = "movie" }: HeroProps) => {
   const isTv = kind === "tv";
 
   const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [iframeVisible, setIframeVisible] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
@@ -31,14 +32,21 @@ export const HeroImage = ({ movie, kind = "movie" }: HeroProps) => {
 
   const trailerKey = pickYoutubeTrailer(videos?.results)?.key ?? null;
   const useTrailerBg = Boolean(trailerKey) && !reduceMotion;
+  const encodedTrailerKey = trailerKey ? encodeURIComponent(trailerKey) : null;
 
   useEffect(() => {
     setIframeLoaded(false);
+    setIframeVisible(false);
   }, [trailerKey]);
 
-  /** `disablekb` / `fs=0` riducono UI; titolo e barra si mascherano con zoom + overlay. */
+  useEffect(() => {
+    if (!iframeLoaded) return;
+    const timer = window.setTimeout(() => setIframeVisible(true), 1900);
+    return () => window.clearTimeout(timer);
+  }, [iframeLoaded]);
+
   const embedSrc = useTrailerBg
-    ? `https://www.youtube.com/embed/${encodeURIComponent(trailerKey)}?autoplay=1&mute=1&controls=0&loop=1&playlist=${encodeURIComponent(trailerKey)}&playsinline=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&fs=0`
+    ? `https://www.youtube.com/embed/${encodedTrailerKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${encodedTrailerKey}&playsinline=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&fs=0&showinfo=0&autohide=1`
     : null;
 
   return (
@@ -48,7 +56,7 @@ export const HeroImage = ({ movie, kind = "movie" }: HeroProps) => {
           width={1280}
           height={720}
           className={`h-full w-full object-cover object-center brightness-[1.08] saturate-[1.05] transition-opacity duration-700 ease-out ${
-            useTrailerBg && iframeLoaded ? "opacity-0" : "opacity-100"
+            useTrailerBg && iframeVisible ? "opacity-0" : "opacity-100"
           }`}
           alt=""
           src={getFilmImage(movie.backdrop_path, "w1280")}
@@ -58,7 +66,7 @@ export const HeroImage = ({ movie, kind = "movie" }: HeroProps) => {
         {embedSrc ? (
           <div
             className={`pointer-events-none absolute inset-0 transition-opacity duration-700 ease-out ${
-              iframeLoaded ? "opacity-100" : "opacity-0"
+              iframeVisible ? "opacity-100" : "opacity-0"
             }`}
             aria-hidden
           >

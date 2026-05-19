@@ -41,7 +41,13 @@ export const HeroActions = ({
 
   return (
     <div className="flex flex-wrap items-center gap-4 md:gap-5">
-      <div className="flex rounded-full border border-mv-gold/25 bg-mv-panel/80 p-3 md:hidden">
+      <div
+        className="flex rounded-full border border-mv-gold/18 bg-mv-gold/6 p-3 shadow-[0_0_24px_rgba(192,132,252,0.2)] md:hidden"
+        style={{
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+        }}
+      >
         <FaStar className="text-mv-gold-bright" size={22} />
       </div>
       {showWishlist && kind === "movie" ? (
@@ -59,12 +65,10 @@ export const HeroActions = ({
             setTrailerOpen(false);
             setStreamOpen(true);
           }}
-          className="inline-flex items-center gap-2 rounded-lg border border-mv-ember/40 bg-mv-ember/15 px-6 py-2.5 font-sans text-sm font-semibold text-mv-cream transition-all hover:border-mv-ember-glow/55 hover:bg-mv-ember/25"
+          className="mv-btn-gradient inline-flex items-center gap-2.5 rounded-xl px-6 py-2.5 font-sans text-sm font-bold text-white active:scale-95"
         >
           <FaPlay className="shrink-0 text-mv-gold-bright" size={14} />
-          {streamLang === "it"
-            ? "Riproduci"
-            : "Riproduci in lingua originale"}
+          {streamLang === "it" ? "Riproduci" : "Riproduci in lingua originale"}
         </button>
       ) : null}
       {!!movieTrailer && (
@@ -74,7 +78,12 @@ export const HeroActions = ({
             setStreamOpen(false);
             setTrailerOpen(true);
           }}
-          className="rounded-lg border border-mv-cream/25 bg-mv-cream/5 px-6 py-2.5 font-sans text-sm font-semibold text-mv-cream transition-all hover:border-mv-cream/50 hover:bg-mv-cream/10"
+          className="rounded-xl border border-white/12 px-6 py-2.5 font-sans text-sm font-semibold text-mv-cream transition-all duration-300 hover:border-white/22 hover:bg-white/8 active:scale-95"
+          style={{
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            backgroundColor: "rgba(255,255,255,0.04)",
+          }}
         >
           Trailer
         </button>

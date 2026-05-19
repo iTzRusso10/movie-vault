@@ -63,19 +63,23 @@ export const MoviePerGenresSection = () => {
   return (
     <section className="relative flex flex-col gap-16 pb-12 pt-10 md:gap-20 md:pb-20 md:pt-14">
       <div
-        className="pointer-events-none absolute left-1/2 top-0 h-px w-[min(90%,48rem)] -translate-x-1/2 bg-gradient-to-r from-transparent via-mv-gold/30 to-transparent"
+        className="pointer-events-none absolute left-1/2 top-0 h-px w-[min(90%,48rem)] -translate-x-1/2"
+        style={{
+          background:
+            "linear-gradient(to right, transparent, rgba(192,132,252,0.35), transparent)",
+        }}
         aria-hidden
       />
       {isLoading && (
         <div className="flex flex-col gap-12 px-4 md:px-10" aria-busy>
           {Array.from({ length: 2 }).map((_, i) => (
             <div key={i} className="space-y-4">
-              <div className="h-8 w-48 animate-pulse rounded-md bg-mv-panel ring-1 ring-mv-gold/10" />
+              <div className="mv-shimmer h-8 w-48 rounded-xl bg-mv-panel ring-1 ring-white/5" />
               <div className="flex gap-3 overflow-hidden">
                 {Array.from({ length: 6 }).map((__, j) => (
                   <div
                     key={j}
-                    className="aspect-[2/3] w-[28%] shrink-0 animate-pulse rounded-xl bg-mv-panel ring-1 ring-mv-gold/10 sm:w-[22%] md:w-[18%]"
+                    className="mv-shimmer aspect-[2/3] w-[28%] shrink-0 rounded-2xl bg-mv-panel ring-1 ring-white/5 sm:w-[22%] md:w-[18%]"
                   />
                 ))}
               </div>
@@ -132,14 +136,14 @@ export const SectionTitle = ({ title, id }: { title: string; id: number }) => {
       to={`/film/genres/$genres_and_id`}
       params={{ genres_and_id: `${id}-${title.toLowerCase()}` }}
       search={{ yearMin: undefined, yearMax: undefined, sort: undefined }}
-      className="group inline-flex flex-col gap-1 rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-mv-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-mv-void"
+      className="group inline-flex flex-col gap-2 rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-mv-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-mv-void"
     >
-      <span className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-mv-gold/70 transition-colors group-hover:text-mv-gold-bright">
+      <span className="inline-flex w-fit items-center rounded-full border border-mv-gold/18 bg-mv-gold/6 px-2.5 py-0.5 font-sans text-[0.58rem] font-semibold uppercase tracking-[0.3em] text-mv-gold/75 backdrop-blur-sm transition-all duration-200 group-hover:border-mv-gold/35 group-hover:bg-mv-gold/12 group-hover:text-mv-gold-bright">
         Esplora
       </span>
       <h2 className="font-display text-3xl font-semibold tracking-tight text-mv-cream md:text-4xl">
         {title}
-        <span className="ml-2 inline-block text-mv-gold transition-transform duration-300 group-hover:translate-x-1">
+        <span className="ml-2 inline-block text-mv-gold-bright transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-2">
           →
         </span>
       </h2>

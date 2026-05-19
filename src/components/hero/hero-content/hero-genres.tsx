@@ -3,7 +3,14 @@ interface HeroGenresProps {
 }
 
 export const HeroGenres = ({ genres }: HeroGenresProps) => (
-  <p className="font-sans text-[0.7rem] font-medium uppercase tracking-[0.28em] text-mv-cream-muted">
-    {genres.map((genre) => genre.name).join(" · ")}
-  </p>
+  <div className="flex flex-wrap gap-1.5">
+    {genres.slice(0, 4).map((genre) => (
+      <span
+        key={genre.id}
+        className="rounded-full border border-white/9 bg-white/5 px-2.5 py-0.5 font-sans text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-mv-cream-muted backdrop-blur-sm"
+      >
+        {genre.name}
+      </span>
+    ))}
+  </div>
 );

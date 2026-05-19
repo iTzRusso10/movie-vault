@@ -21,8 +21,7 @@ function ListaDesideriPage() {
 
   const { data, isFetching } = useQuery({
     queryKey: wishlistKey,
-    queryFn: () =>
-      listFn({ headers: { Authorization: `Bearer ${token}` } }),
+    queryFn: () => listFn({ headers: { Authorization: `Bearer ${token}` } }),
     enabled: Boolean(user && token),
   });
 
@@ -48,9 +47,7 @@ function ListaDesideriPage() {
   if (!user || !token) {
     return (
       <div className="mx-auto max-w-lg px-4 pt-8 pb-20">
-        <h1 className="font-display text-3xl text-mv-cream">
-          Lista desideri
-        </h1>
+        <h1 className="font-display text-3xl text-mv-cream">Lista desideri</h1>
         <p className="mt-4 font-sans text-sm text-mv-cream-muted">
           Accedi per vedere e salvare i film che vuoi recuperare.
         </p>
@@ -86,11 +83,11 @@ function ListaDesideriPage() {
       <div className="relative mx-auto max-w-6xl">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="animate-mv-fade-up font-sans text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-mv-gold/70">
+            <p className="animate-mv-fade-up font-sans text-[0.65rem] font-bold uppercase tracking-[0.4em] text-mv-gold/70">
               Collezione personale
             </p>
-            <h1 className="animate-mv-fade-up mt-2 font-display text-4xl font-semibold tracking-tight text-mv-cream md:text-5xl [animation-delay:80ms]">
-              Lista desideri
+            <h1 className="animate-mv-fade-up mt-2 font-display text-4xl font-semibold tracking-tight md:text-5xl [animation-delay:80ms]">
+              <span className="mv-text-gradient">Lista desideri</span>
             </h1>
             <p className="animate-mv-fade-up mt-3 max-w-md font-sans text-sm text-mv-cream-muted [animation-delay:140ms]">
               {empty
@@ -113,8 +110,15 @@ function ListaDesideriPage() {
         ) : null}
 
         {empty ? (
-          <div className="animate-slide-up-md mt-16 rounded-2xl border border-dashed border-mv-gold/25 bg-mv-panel/40 px-8 py-16 text-center backdrop-blur-sm">
-            <p className="font-display text-xl text-mv-cream/90">
+          <div
+            className="animate-slide-up-md mt-16 rounded-3xl border border-white/8 px-8 py-16 text-center"
+            style={{
+              backdropFilter: "blur(32px)",
+              WebkitBackdropFilter: "blur(32px)",
+              backgroundColor: "rgba(9,6,22,0.5)",
+            }}
+          >
+            <p className="font-display text-2xl text-mv-cream/90">
               Ancora vuota
             </p>
             <p className="mx-auto mt-3 max-w-sm font-sans text-sm text-mv-cream-muted">
@@ -123,7 +127,7 @@ function ListaDesideriPage() {
             </p>
             <Link
               to="/"
-              className="mt-8 inline-flex rounded-xl border border-mv-gold/30 px-6 py-2.5 font-sans text-sm font-semibold text-mv-gold-bright transition-colors hover:bg-mv-gold/10"
+              className="mv-btn-gradient mt-8 inline-flex rounded-xl px-6 py-2.5 font-sans text-sm font-bold text-white"
             >
               Esplora film
             </Link>
@@ -141,7 +145,7 @@ function ListaDesideriPage() {
                   params={{
                     id_and_title: `${item.movieId}-${item.title}`,
                   }}
-                  className="block overflow-hidden rounded-xl ring-1 ring-mv-gold/15 transition-all duration-500 hover:ring-mv-gold/40 hover:shadow-gold-glow"
+                  className="block overflow-hidden rounded-2xl ring-1 ring-white/8 transition-all duration-500 hover:ring-mv-gold/38 hover:shadow-[0_0_36px_-4px_rgba(192,132,252,0.35),0_20px_60px_-8px_rgba(0,0,0,0.65)]"
                 >
                   <div className="relative aspect-[2/3]">
                     <img
@@ -159,7 +163,7 @@ function ListaDesideriPage() {
                   type="button"
                   onClick={() => removeMut.mutate(item.movieId)}
                   disabled={removeMut.isPending}
-                  className="absolute right-2 top-2 rounded-lg border border-mv-ember/40 bg-mv-void/85 px-2 py-1 font-sans text-[0.65rem] font-semibold uppercase tracking-wide text-mv-cream opacity-0 shadow-md backdrop-blur-sm transition-all hover:bg-mv-ember/20 group-hover:opacity-100"
+                  className="absolute right-2 top-2 rounded-xl border border-mv-ember/35 bg-mv-void/80 px-2.5 py-1 font-sans text-[0.62rem] font-semibold uppercase tracking-wide text-mv-ember-glow opacity-0 shadow-md backdrop-blur-sm transition-all hover:bg-mv-ember/15 group-hover:opacity-100"
                 >
                   Rimuovi
                 </button>

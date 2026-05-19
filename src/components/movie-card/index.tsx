@@ -13,8 +13,9 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
         params={{ id_and_title: `${movie.id}-${movie.title}` }}
         className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-mv-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-mv-void rounded-xl"
       >
-        <div className="relative w-full overflow-hidden rounded-xl ring-1 ring-mv-gold/15 transition-all duration-500 ease-out group-hover:ring-mv-gold/45 group-hover:shadow-gold-glow">
-          <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-mv-void via-transparent to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-80" />
+        <div className="relative w-full overflow-hidden rounded-2xl ring-1 ring-white/8 transition-all duration-500 ease-out group-hover:ring-mv-gold/38 group-hover:shadow-[0_0_36px_-4px_rgba(212,165,116,0.28),0_20px_60px_-8px_rgba(0,0,0,0.65)]">
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1/4 bg-linear-to-b from-white/[0.035] to-transparent" />
+          <div className="pointer-events-none absolute inset-0 z-10 bg-linear-to-t from-mv-void via-mv-void/10 to-transparent opacity-55 transition-opacity duration-500 group-hover:opacity-75" />
           <img
             loading="lazy"
             width={500}
@@ -24,7 +25,7 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
             alt={`Locandina di ${movie.title}`}
             decoding="async"
           />
-          <div className="absolute bottom-0 left-0 right-0 z-20 p-3 opacity-0 transition-all duration-300 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0">
+          <div className="mv-glass-card absolute bottom-0 left-0 right-0 z-20 p-3 opacity-0 transition-all duration-400 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0">
             <p className="font-display text-sm font-semibold leading-tight text-mv-cream line-clamp-2 drop-shadow-md">
               {movie.title}
             </p>

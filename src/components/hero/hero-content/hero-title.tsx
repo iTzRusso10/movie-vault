@@ -24,7 +24,7 @@ export const HeroTitle = ({
   return (
     <header className="w-full space-y-3">
       {!getLogo(images) ? (
-        <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-mv-cream md:text-5xl lg:text-6xl">
+        <h1 className="font-display text-5xl font-semibold leading-[1.05] tracking-tight drop-shadow-md md:text-6xl lg:text-7xl">
           <span className="mv-text-gradient">{headline}</span>
         </h1>
       ) : (
@@ -43,7 +43,7 @@ export const HeroTitle = ({
       )}
 
       <p className="flex flex-wrap items-center gap-2 font-sans text-sm text-mv-cream-muted">
-        <span className="rounded border border-mv-gold/20 bg-mv-panel/60 px-2 py-0.5 font-semibold tracking-wide text-mv-gold-bright">
+        <span className="rounded-full border border-mv-gold/22 bg-mv-gold/8 px-2.5 py-0.5 font-semibold tracking-wide text-mv-gold-bright backdrop-blur-md">
           {Number.isFinite(year) ? year : "—"}
         </span>
         {!!runtimeMinutes && (

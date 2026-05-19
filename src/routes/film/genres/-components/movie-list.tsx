@@ -3,6 +3,7 @@ import type { GenreDiscoverSort } from "@/api/movie/movie-per-genres";
 import type { Movie } from "@/types/movie";
 import { MovieCard } from "@/components/movie-card";
 import { Skeleton } from "@/components/skeleton";
+import { VirtualGrid } from "@/components/virtual-grid";
 import { useIntersectionObserver } from "crustack/hooks";
 import type { InfiniteData } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef } from "react";
@@ -46,7 +47,9 @@ function countItalianMatches(
 
 function sentinelIsNearBottom(el: HTMLElement | null): boolean {
   if (!el) return false;
-  return el.getBoundingClientRect().top <= window.innerHeight + SCROLL_PREFETCH_PX;
+  return (
+    el.getBoundingClientRect().top <= window.innerHeight + SCROLL_PREFETCH_PX
+  );
 }
 
 export default function MovieList({
@@ -91,10 +94,7 @@ export default function MovieList({
       if (!italianIds) {
         let result = await fetchNextPage();
         let tmdbFetches = 1;
-        while (
-          result.hasNextPage &&
-          tmdbFetches < PLAIN_BURST_TMDB_PAGES
-        ) {
+        while (result.hasNextPage && tmdbFetches < PLAIN_BURST_TMDB_PAGES) {
           result = await fetchNextPage();
           tmdbFetches++;
         }
@@ -139,7 +139,8 @@ export default function MovieList({
   const pageCount = data?.pages.length ?? 0;
 
   useEffect(() => {
-    if (!isIntersectingRef.current || !hasNextPage || isFetchingNextPage) return;
+    if (!isIntersectingRef.current || !hasNextPage || isFetchingNextPage)
+      return;
     if (burstLockRef.current) return;
     void runLoadWave();
   }, [pageCount, hasNextPage, isFetchingNextPage, runLoadWave]);
@@ -191,7 +192,9 @@ export default function MovieList({
     <div className="flex flex-col items-center gap-4">
       {italianIds && !isLoading ? (
         <p className="w-full font-sans text-xs tabular-nums text-mv-cream-muted">
-          <span className="font-semibold text-mv-gold-bright">{movies.length}</span>
+          <span className="font-semibold text-mv-gold-bright">
+            {movies.length}
+          </span>
           {" film con italiano disponibili"}
           {stillSearching ? (
             <span className="ml-1 animate-pulse text-mv-gold/50">
@@ -200,10 +203,12 @@ export default function MovieList({
           ) : null}
         </p>
       ) : null}
+      <VirtualGrid
+        items={movies}
+        getKey={(movie) => movie.id}
+        renderItem={(movie) => <MovieCard movie={movie} />}
+      />
       <div className="grid w-full grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
         {isLoading &&
           Array.from({ length: 20 }).map((_, i) => (
             <Skeleton.Text

@@ -37,6 +37,9 @@ function RootLayout() {
       <body>
         <div id="app">
           <div className="mv-atmosphere" aria-hidden>
+            <div className="mv-orb mv-orb-ember" />
+            <div className="mv-orb mv-orb-gold" />
+            <div className="mv-orb mv-orb-mid" />
             <div className="mv-vignette" />
             <div className="mv-noise" />
           </div>
