@@ -41,7 +41,7 @@ export const HeroImage = ({ movie, kind = "movie" }: HeroProps) => {
 
   useEffect(() => {
     if (!iframeLoaded) return;
-    const timer = window.setTimeout(() => setIframeVisible(true), 1900);
+    const timer = window.setTimeout(() => setIframeVisible(true), 2600);
     return () => window.clearTimeout(timer);
   }, [iframeLoaded]);
 
@@ -73,14 +73,16 @@ export const HeroImage = ({ movie, kind = "movie" }: HeroProps) => {
             <div className="absolute inset-0 overflow-hidden">
               <iframe
                 title=""
-                className="absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.77vh] min-w-full -translate-x-1/2 -translate-y-1/2 scale-[1.22] border-0"
+                className="absolute left-1/2 top-1/2 h-[62vw] min-h-[118%] w-[196vh] min-w-[118%] -translate-x-1/2 -translate-y-1/2 scale-[1.42] border-0"
                 src={embedSrc}
                 allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                 referrerPolicy="strict-origin-when-cross-origin"
                 onLoad={() => setIframeLoaded(true)}
               />
-              <div className="pointer-events-none absolute inset-x-0 top-0 z-1 h-[min(14vh,100px)] bg-linear-to-b from-mv-void from-40% to-transparent" />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 z-1 h-[min(22vh,140px)] bg-linear-to-t from-mv-void from-35% to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 top-0 z-1 h-[min(18vh,150px)] bg-linear-to-b from-mv-void from-35% to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 z-1 h-[min(34vh,260px)] bg-linear-to-t from-mv-void from-45% to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 z-1 w-[min(14vw,180px)] bg-linear-to-r from-mv-void/80 to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 z-1 w-[min(14vw,180px)] bg-linear-to-l from-mv-void/80 to-transparent" />
             </div>
           </div>
         ) : null}

@@ -1,4 +1,5 @@
 import type { StreamEmbedCandidate } from "@/lib/stream-embed-candidates";
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const SLOW_HINT_MS = 2_000;
@@ -132,6 +133,17 @@ export function StreamEmbedPlayer({
         </div>
       ) : null}
 
+      <a
+        href={current.url}
+        target="_blank"
+        rel="noreferrer"
+        referrerPolicy="no-referrer"
+        className="absolute right-3 top-3 z-20 inline-flex items-center gap-2 rounded-full border border-mv-gold/35 bg-black/70 px-3 py-1.5 font-sans text-[0.65rem] font-semibold uppercase tracking-wider text-mv-cream-muted backdrop-blur transition-colors hover:border-mv-gold/60 hover:text-mv-gold-bright"
+      >
+        Apri in browser
+        <FaArrowUpRightFromSquare size={10} aria-hidden="true" />
+      </a>
+
       <iframe
         key={`${index}-${current.url}`}
         title={iframeTitle}
@@ -145,7 +157,7 @@ export function StreamEmbedPlayer({
         allowFullScreen
         allow="fullscreen; autoplay; encrypted-media; picture-in-picture"
         loading="eager"
-        referrerPolicy="no-referrer-when-downgrade"
+        referrerPolicy="no-referrer"
         onLoad={handleLoad}
       />
     </div>
