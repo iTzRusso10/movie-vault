@@ -75,6 +75,8 @@ export default function MovieList({
       sort,
     });
 
+  const dataRef = useRef(data);
+  dataRef.current = data;
   const isIntersectingRef = useRef(false);
   const burstLockRef = useRef(false);
   const uniqueRef = useRef(new Map<number, Movie>());
@@ -100,12 +102,19 @@ export default function MovieList({
         }
         return;
       }
+      // Conta solo i match nuovi di questa ondata: con il totale cumulativo,
+      // dopo la prima ondata il target era già raggiunto e si scaricava 1 pagina per volta.
+      const matchesBefore = countItalianMatches(
+        dataRef.current,
+        heroId,
+        italianIds,
+      );
       let result = await fetchNextPage();
       let tmdbFetches = 1;
       while (
         result.hasNextPage &&
         tmdbFetches < ITALIAN_BURST_MAX_TMDB_PAGES &&
-        countItalianMatches(result.data, heroId, italianIds) <
+        countItalianMatches(result.data, heroId, italianIds) - matchesBefore <
           ITALIAN_BURST_TARGET
       ) {
         result = await fetchNextPage();

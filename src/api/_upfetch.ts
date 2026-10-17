@@ -3,6 +3,9 @@ import { up } from "up-fetch";
 /** Lingua testi TMDB (titoli, trame, generi, ecc.). */
 const TMDB_LANGUAGE = "it-IT";
 
+/** Ultima pagina accettata da `/discover` (oltre risponde 400). */
+export const TMDB_MAX_PAGE = 500;
+
 export const upfetch = up(fetch, () => ({
   baseUrl: "https://api.themoviedb.org/3",
   params: {

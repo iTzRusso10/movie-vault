@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { TMDB_MAX_PAGE } from "../_upfetch";
 import {
   getMovieByFilters,
   type GenreDiscoverSort,
@@ -24,8 +25,11 @@ export const useInfiniteMovieByGenreQuery = ({
     queryKey: ["movie", genreId, rangeKey, sort],
     queryFn: ({ pageParam = 1 }) =>
       getMovieByFilters(genreId, pageParam, { yearMin, yearMax, sort }),
+    // TMDB `/discover` rifiuta page > 500 anche se `total_pages` è più alto.
     getNextPageParam: (lastPage) =>
-      lastPage.page < lastPage.total_pages ? lastPage.page + 1 : null,
+      lastPage.page < Math.min(lastPage.total_pages, TMDB_MAX_PAGE)
+        ? lastPage.page + 1
+        : null,
     initialPageParam: 1,
     staleTime: 300000,
   });
