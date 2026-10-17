@@ -5,14 +5,7 @@ import { MovieCard } from "@/components/movie-card";
 import { Skeleton } from "@/components/skeleton";
 import { VirtualGrid } from "@/components/virtual-grid";
 import { useIntersectionObserver } from "crustack/hooks";
-import type { InfiniteData } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef } from "react";
-
-type DiscoverPage = {
-  results: Movie[];
-  page: number;
-  total_pages: number;
-};
 
 /** Estende la zona “in vista” verso il basso così il caricamento parte prima del bordo fine pagina. */
 /** Valore fisso: `min()` in rootMargin non è supportato ovunque. */
@@ -21,29 +14,11 @@ const IO_ROOT_MARGIN = "0px 0px 1600px 0px";
 /** Senza filtro ITA: quante pagine TMDB scaricare per ondata (evita 1 pagina / scroll). */
 const PLAIN_BURST_TMDB_PAGES = 6;
 
-const ITALIAN_BURST_TARGET = 20;
-const ITALIAN_BURST_MAX_TMDB_PAGES = 12;
+/** Con filtro ITA: chiamate al server per ondata (ognuna porta ≥20 titoli). */
+const ITALIAN_BURST_REQUESTS = 2;
 
 /** Pixel oltre il basso viewport: se il sentinel è qui sotto, consideriamo “vicino al fondo”. */
 const SCROLL_PREFETCH_PX = 1800;
-
-function countItalianMatches(
-  data: InfiniteData<DiscoverPage> | undefined,
-  heroId: number | undefined,
-  italianIds: Set<number>,
-): number {
-  if (!data?.pages?.length) return 0;
-  const seen = new Set<number>();
-  let n = 0;
-  for (const p of data.pages) {
-    for (const m of p.results) {
-      if (m.id === heroId || seen.has(m.id)) continue;
-      seen.add(m.id);
-      if (italianIds.has(m.id)) n++;
-    }
-  }
-  return n;
-}
 
 function sentinelIsNearBottom(el: HTMLElement | null): boolean {
   if (!el) return false;
@@ -57,14 +32,14 @@ export default function MovieList({
   yearMin,
   yearMax,
   sort = "popularity",
-  italianIds,
+  italianOnly = false,
   heroId,
 }: {
   genre_id: number;
   yearMin?: number;
   yearMax?: number;
   sort?: GenreDiscoverSort;
-  italianIds?: Set<number> | null;
+  italianOnly?: boolean;
   heroId?: number;
 }) {
   const { data, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } =
@@ -73,57 +48,35 @@ export default function MovieList({
       yearMin,
       yearMax,
       sort,
+      italianOnly,
     });
 
-  const dataRef = useRef(data);
-  dataRef.current = data;
   const isIntersectingRef = useRef(false);
   const burstLockRef = useRef(false);
   const uniqueRef = useRef(new Map<number, Movie>());
   const prevPagesLenRef = useRef(0);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
-  const queryResetKey = `${genre_id}|${yearMin ?? ""}|${yearMax ?? ""}|${sort}|${heroId ?? ""}`;
-  useEffect(() => {
-    uniqueRef.current.clear();
-    prevPagesLenRef.current = 0;
-  }, [queryResetKey]);
+  const queryResetKey = `${genre_id}|${yearMin ?? ""}|${yearMax ?? ""}|${sort}|${heroId ?? ""}|${italianOnly}`;
+  const resetKeyRef = useRef(queryResetKey);
 
   const runLoadWave = useCallback(async () => {
     if (burstLockRef.current || !hasNextPage) return;
     burstLockRef.current = true;
     try {
-      if (!italianIds) {
-        let result = await fetchNextPage();
-        let tmdbFetches = 1;
-        while (result.hasNextPage && tmdbFetches < PLAIN_BURST_TMDB_PAGES) {
-          result = await fetchNextPage();
-          tmdbFetches++;
-        }
-        return;
-      }
-      // Conta solo i match nuovi di questa ondata: con il totale cumulativo,
-      // dopo la prima ondata il target era già raggiunto e si scaricava 1 pagina per volta.
-      const matchesBefore = countItalianMatches(
-        dataRef.current,
-        heroId,
-        italianIds,
-      );
+      const burst = italianOnly
+        ? ITALIAN_BURST_REQUESTS
+        : PLAIN_BURST_TMDB_PAGES;
       let result = await fetchNextPage();
-      let tmdbFetches = 1;
-      while (
-        result.hasNextPage &&
-        tmdbFetches < ITALIAN_BURST_MAX_TMDB_PAGES &&
-        countItalianMatches(result.data, heroId, italianIds) - matchesBefore <
-          ITALIAN_BURST_TARGET
-      ) {
+      let fetches = 1;
+      while (result.hasNextPage && fetches < burst) {
         result = await fetchNextPage();
-        tmdbFetches++;
+        fetches++;
       }
     } finally {
       burstLockRef.current = false;
     }
-  }, [italianIds, hasNextPage, fetchNextPage, heroId]);
+  }, [italianOnly, hasNextPage, fetchNextPage]);
 
   const runLoadWaveRef = useRef(runLoadWave);
   runLoadWaveRef.current = runLoadWave;
@@ -180,9 +133,13 @@ export default function MovieList({
   const movies = useMemo(() => {
     const pages = data?.pages ?? [];
     const map = uniqueRef.current;
-    if (pages.length < prevPagesLenRef.current) {
+    if (
+      resetKeyRef.current !== queryResetKey ||
+      pages.length < prevPagesLenRef.current
+    ) {
       map.clear();
       prevPagesLenRef.current = 0;
+      resetKeyRef.current = queryResetKey;
     }
     for (let i = prevPagesLenRef.current; i < pages.length; i++) {
       for (const movie of pages[i].results) {
@@ -190,16 +147,15 @@ export default function MovieList({
       }
     }
     prevPagesLenRef.current = pages.length;
-    const all = [...map.values()];
-    return italianIds ? all.filter((m) => italianIds.has(m.id)) : all;
-  }, [data?.pages, heroId, italianIds]);
+    return [...map.values()];
+  }, [data?.pages, heroId, queryResetKey]);
 
   const endOfList = !hasNextPage && !isLoading;
-  const stillSearching = !!italianIds && (hasNextPage || isFetchingNextPage);
+  const stillSearching = italianOnly && (hasNextPage || isFetchingNextPage);
 
   return (
     <div className="flex flex-col items-center gap-4">
-      {italianIds && !isLoading ? (
+      {italianOnly && !isLoading ? (
         <p className="w-full font-sans text-xs tabular-nums text-mv-cream-muted">
           <span className="font-semibold text-mv-gold-bright">
             {movies.length}
@@ -227,7 +183,7 @@ export default function MovieList({
           ))}
       </div>
 
-      {endOfList && movies.length === 0 && italianIds ? (
+      {endOfList && movies.length === 0 && italianOnly ? (
         <p className="font-sans text-sm text-mv-cream-muted">
           Nessun film con italiano disponibile nello stream per questo genere.
         </p>

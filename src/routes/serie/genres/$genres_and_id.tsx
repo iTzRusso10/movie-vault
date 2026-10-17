@@ -341,7 +341,7 @@ function TvPerGenresPage() {
             yearMin={sMin}
             yearMax={sMax}
             sort={sort}
-            italianIds={italianOnly ? italianIds : null}
+            italianOnly={italianOnly}
             heroId={heroShow?.id}
           />
         </div>

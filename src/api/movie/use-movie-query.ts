@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { italianMovieDiscoverFn } from "@/server/stream/italian-discover.server-fns";
 import { TMDB_MAX_PAGE } from "../_upfetch";
 import {
   getMovieByFilters,
@@ -10,11 +11,14 @@ export const useInfiniteMovieByGenreQuery = ({
   yearMin,
   yearMax,
   sort = "popularity",
+  italianOnly = false,
 }: {
   genreId: number;
   yearMin?: number;
   yearMax?: number;
   sort?: GenreDiscoverSort;
+  /** Solo titoli con audio italiano su VixSRC (filtrati lato server). */
+  italianOnly?: boolean;
 }) => {
   const rangeKey =
     yearMin != null || yearMax != null
@@ -22,9 +26,13 @@ export const useInfiniteMovieByGenreQuery = ({
       : "all";
 
   return useInfiniteQuery({
-    queryKey: ["movie", genreId, rangeKey, sort],
+    queryKey: ["movie", genreId, rangeKey, sort, italianOnly ? "ita" : "all"],
     queryFn: ({ pageParam = 1 }) =>
-      getMovieByFilters(genreId, pageParam, { yearMin, yearMax, sort }),
+      italianOnly
+        ? italianMovieDiscoverFn({
+            data: { genreId, page: pageParam, yearMin, yearMax, sort },
+          })
+        : getMovieByFilters(genreId, pageParam, { yearMin, yearMax, sort }),
     // TMDB `/discover` rifiuta page > 500 anche se `total_pages` è più alto.
     getNextPageParam: (lastPage) =>
       lastPage.page < Math.min(lastPage.total_pages, TMDB_MAX_PAGE)

@@ -19,7 +19,7 @@ type CatalogCache = {
 let catalogCache: CatalogCache | null = null;
 const CATALOG_TTL_MS = 1000 * 60 * 15;
 
-async function getVixsrcMovieIdSet(): Promise<Set<number>> {
+export async function getVixsrcMovieIdSet(): Promise<Set<number>> {
   const now = Date.now();
   if (catalogCache && now - catalogCache.fetchedAt < CATALOG_TTL_MS) {
     return catalogCache.ids;
@@ -105,7 +105,7 @@ const tvIdSchema = z.object({
 
 let catalogTvCache: CatalogCache | null = null;
 
-async function getVixsrcTvIdSet(): Promise<Set<number>> {
+export async function getVixsrcTvIdSet(): Promise<Set<number>> {
   const now = Date.now();
   if (catalogTvCache && now - catalogTvCache.fetchedAt < CATALOG_TTL_MS) {
     return catalogTvCache.ids;

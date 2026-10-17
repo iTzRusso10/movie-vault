@@ -338,7 +338,7 @@ function MoviePerGenresPage() {
             yearMin={sMin}
             yearMax={sMax}
             sort={sort}
-            italianIds={italianOnly ? italianIds : null}
+            italianOnly={italianOnly}
             heroId={heroMovie?.id}
           />
         </div>
