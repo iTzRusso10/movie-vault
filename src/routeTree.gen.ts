@@ -10,25 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ListaDesideriRouteImport } from './routes/lista-desideri'
-import { Route as SerieIndexRouteImport } from './routes/serie/index'
 import { Route as homeIndexRouteImport } from './routes/(home)/index'
-import { Route as SerieId_and_titleRouteImport } from './routes/serie/$id_and_title'
-import { Route as FilmId_and_titleRouteImport } from './routes/film/$id_and_title'
-import { Route as AccountRegisterRouteImport } from './routes/account/register'
-import { Route as AccountProfileRouteImport } from './routes/account/profile'
 import { Route as AccountLoginRouteImport } from './routes/account/login'
+import { Route as AccountProfileRouteImport } from './routes/account/profile'
+import { Route as AccountRegisterRouteImport } from './routes/account/register'
+import { Route as FilmId_and_titleRouteImport } from './routes/film/$id_and_title'
+import { Route as SerieIndexRouteImport } from './routes/serie/index'
+import { Route as SerieId_and_titleRouteImport } from './routes/serie/$id_and_title'
+import { Route as FilmGenresGenres_and_idRouteImport } from './routes/film/genres/$genres_and_id'
 import { Route as FilmSearchIndexRouteImport } from './routes/film/search/index'
 import { Route as SerieGenresGenres_and_idRouteImport } from './routes/serie/genres/$genres_and_id'
-import { Route as FilmGenresGenres_and_idRouteImport } from './routes/film/genres/$genres_and_id'
 
 const ListaDesideriRoute = ListaDesideriRouteImport.update({
   id: '/lista-desideri',
   path: '/lista-desideri',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SerieIndexRoute = SerieIndexRouteImport.update({
-  id: '/serie/',
-  path: '/serie/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const homeIndexRoute = homeIndexRouteImport.update({
@@ -36,19 +31,9 @@ const homeIndexRoute = homeIndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SerieId_and_titleRoute = SerieId_and_titleRouteImport.update({
-  id: '/serie/$id_and_title',
-  path: '/serie/$id_and_title',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FilmId_and_titleRoute = FilmId_and_titleRouteImport.update({
-  id: '/film/$id_and_title',
-  path: '/film/$id_and_title',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AccountRegisterRoute = AccountRegisterRouteImport.update({
-  id: '/account/register',
-  path: '/account/register',
+const AccountLoginRoute = AccountLoginRouteImport.update({
+  id: '/account/login',
+  path: '/account/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountProfileRoute = AccountProfileRouteImport.update({
@@ -56,9 +41,29 @@ const AccountProfileRoute = AccountProfileRouteImport.update({
   path: '/account/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AccountLoginRoute = AccountLoginRouteImport.update({
-  id: '/account/login',
-  path: '/account/login',
+const AccountRegisterRoute = AccountRegisterRouteImport.update({
+  id: '/account/register',
+  path: '/account/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FilmId_and_titleRoute = FilmId_and_titleRouteImport.update({
+  id: '/film/$id_and_title',
+  path: '/film/$id_and_title',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SerieIndexRoute = SerieIndexRouteImport.update({
+  id: '/serie/',
+  path: '/serie/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SerieId_and_titleRoute = SerieId_and_titleRouteImport.update({
+  id: '/serie/$id_and_title',
+  path: '/serie/$id_and_title',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FilmGenresGenres_and_idRoute = FilmGenresGenres_and_idRouteImport.update({
+  id: '/film/genres/$genres_and_id',
+  path: '/film/genres/$genres_and_id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FilmSearchIndexRoute = FilmSearchIndexRouteImport.update({
@@ -72,11 +77,6 @@ const SerieGenresGenres_and_idRoute =
     path: '/serie/genres/$genres_and_id',
     getParentRoute: () => rootRouteImport,
   } as any)
-const FilmGenresGenres_and_idRoute = FilmGenresGenres_and_idRouteImport.update({
-  id: '/film/genres/$genres_and_id',
-  path: '/film/genres/$genres_and_id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/lista-desideri': typeof ListaDesideriRoute
@@ -86,10 +86,10 @@ export interface FileRoutesByFullPath {
   '/film/$id_and_title': typeof FilmId_and_titleRoute
   '/serie/$id_and_title': typeof SerieId_and_titleRoute
   '/': typeof homeIndexRoute
-  '/serie': typeof SerieIndexRoute
+  '/serie/': typeof SerieIndexRoute
   '/film/genres/$genres_and_id': typeof FilmGenresGenres_and_idRoute
   '/serie/genres/$genres_and_id': typeof SerieGenresGenres_and_idRoute
-  '/film/search': typeof FilmSearchIndexRoute
+  '/film/search/': typeof FilmSearchIndexRoute
 }
 export interface FileRoutesByTo {
   '/lista-desideri': typeof ListaDesideriRoute
@@ -128,10 +128,10 @@ export interface FileRouteTypes {
     | '/film/$id_and_title'
     | '/serie/$id_and_title'
     | '/'
-    | '/serie'
+    | '/serie/'
     | '/film/genres/$genres_and_id'
     | '/serie/genres/$genres_and_id'
-    | '/film/search'
+    | '/film/search/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/lista-desideri'
@@ -183,46 +183,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListaDesideriRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/serie/': {
-      id: '/serie/'
-      path: '/serie'
-      fullPath: '/serie'
-      preLoaderRoute: typeof SerieIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(home)/': {
       id: '/(home)/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof homeIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/serie/$id_and_title': {
-      id: '/serie/$id_and_title'
-      path: '/serie/$id_and_title'
-      fullPath: '/serie/$id_and_title'
-      preLoaderRoute: typeof SerieId_and_titleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/film/$id_and_title': {
-      id: '/film/$id_and_title'
-      path: '/film/$id_and_title'
-      fullPath: '/film/$id_and_title'
-      preLoaderRoute: typeof FilmId_and_titleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/account/register': {
-      id: '/account/register'
-      path: '/account/register'
-      fullPath: '/account/register'
-      preLoaderRoute: typeof AccountRegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/account/profile': {
-      id: '/account/profile'
-      path: '/account/profile'
-      fullPath: '/account/profile'
-      preLoaderRoute: typeof AccountProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/account/login': {
@@ -232,10 +197,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account/profile': {
+      id: '/account/profile'
+      path: '/account/profile'
+      fullPath: '/account/profile'
+      preLoaderRoute: typeof AccountProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/register': {
+      id: '/account/register'
+      path: '/account/register'
+      fullPath: '/account/register'
+      preLoaderRoute: typeof AccountRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/film/$id_and_title': {
+      id: '/film/$id_and_title'
+      path: '/film/$id_and_title'
+      fullPath: '/film/$id_and_title'
+      preLoaderRoute: typeof FilmId_and_titleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/serie/': {
+      id: '/serie/'
+      path: '/serie'
+      fullPath: '/serie/'
+      preLoaderRoute: typeof SerieIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/serie/$id_and_title': {
+      id: '/serie/$id_and_title'
+      path: '/serie/$id_and_title'
+      fullPath: '/serie/$id_and_title'
+      preLoaderRoute: typeof SerieId_and_titleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/film/genres/$genres_and_id': {
+      id: '/film/genres/$genres_and_id'
+      path: '/film/genres/$genres_and_id'
+      fullPath: '/film/genres/$genres_and_id'
+      preLoaderRoute: typeof FilmGenresGenres_and_idRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/film/search/': {
       id: '/film/search/'
       path: '/film/search'
-      fullPath: '/film/search'
+      fullPath: '/film/search/'
       preLoaderRoute: typeof FilmSearchIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -244,13 +251,6 @@ declare module '@tanstack/react-router' {
       path: '/serie/genres/$genres_and_id'
       fullPath: '/serie/genres/$genres_and_id'
       preLoaderRoute: typeof SerieGenresGenres_and_idRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/film/genres/$genres_and_id': {
-      id: '/film/genres/$genres_and_id'
-      path: '/film/genres/$genres_and_id'
-      fullPath: '/film/genres/$genres_and_id'
-      preLoaderRoute: typeof FilmGenresGenres_and_idRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
