@@ -157,7 +157,8 @@ export function StreamEmbedPlayer({
         allowFullScreen
         allow="fullscreen; autoplay; encrypted-media; picture-in-picture"
         loading="eager"
-        referrerPolicy="no-referrer"
+        // VixSRC mostra "Embed blocked" se l'iframe non invia il referer.
+        referrerPolicy="origin"
         onLoad={handleLoad}
       />
     </div>
